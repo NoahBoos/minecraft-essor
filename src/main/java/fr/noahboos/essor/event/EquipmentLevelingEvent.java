@@ -26,16 +26,15 @@ public class EquipmentLevelingEvent {
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         // Récupération de l'item fabriqué et de la liste de ses composants de données.
         ItemStack craftedItem = event.getCrafting();
-        DataComponentMap craftedItemDataComponents = craftedItem.getComponents();
-        // Instanciation d'un EquipmentLevelingData contenant les valeurs par défaut d'un composant de données de ce type.
-        EquipmentLevelingData defaultData = new EquipmentLevelingData(1, 100, 0f);
 
-        // Si l'item est une pièce d'équipement améliorable. Cette condition vérifie la présence ou non du composant de données "DC_EQUIPMENT_LEVELING_DATA", s'il est présent sur l'item fabriqué, on ne fait rien pour éviter de perdre les données, sinon, on l'ajoute à l'item.
-        if (UPGRADABLE_ITEM_CLASSES.contains(craftedItem.getItem().getClass())) {
-            if (craftedItemDataComponents.has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
-                return;
-            }
-            craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, defaultData);
+        // Si l'item n'est pas une pièce d'équipement améliorable, on arrête l'exécution de la fonction.
+        if (!UPGRADABLE_ITEM_CLASSES.contains(craftedItem.getItem().getClass())) {
+            return;
+        }
+
+        // Si l'item ne possède pas le composant de données "DC_EQUIPMENT_LEVELING_DATA", on le lui ajoute.
+        if (!craftedItem.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+            craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData(1, 100, 0f));
         }
     }
 
