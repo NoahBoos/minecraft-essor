@@ -1,26 +1,23 @@
 package fr.noahboos.essor.loader;
 
-import fr.noahboos.essor.component.ExperienceRange;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExperienceDataRegistry {
     public static String path = "data/essor/experience/";
 
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_ARMOR;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_AXE;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_BOW;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_CROSSBOW;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_FISHING_ROD;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_FLINT_AND_STEEL;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_HOE;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_MACE;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_PICKAXE;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_SHIELD;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_SHOVEL;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_SWORD;
-    public static final Map<String, ExperienceRange> EXPERIENCE_DATA_TRIDENT;
+    public static final Map<String, Float> EXPERIENCE_DATA_ARMOR;
+    public static final Map<String, Float> EXPERIENCE_DATA_AXE;
+    public static final Map<String, Float> EXPERIENCE_DATA_BOW;
+    public static final Map<String, Float> EXPERIENCE_DATA_CROSSBOW;
+    public static final Map<String, Float> EXPERIENCE_DATA_FISHING_ROD;
+    public static final Map<String, Float> EXPERIENCE_DATA_FLINT_AND_STEEL;
+    public static final Map<String, Float> EXPERIENCE_DATA_HOE;
+    public static final Map<String, Float> EXPERIENCE_DATA_MACE;
+    public static final Map<String, Float> EXPERIENCE_DATA_PICKAXE;
+    public static final Map<String, Float> EXPERIENCE_DATA_SHIELD;
+    public static final Map<String, Float> EXPERIENCE_DATA_SHOVEL;
+    public static final Map<String, Float> EXPERIENCE_DATA_SWORD;
+    public static final Map<String, Float> EXPERIENCE_DATA_TRIDENT;
 
     static {
         EXPERIENCE_DATA_ARMOR = JsonLoader.LoadExperienceData(path + "armor.json");
