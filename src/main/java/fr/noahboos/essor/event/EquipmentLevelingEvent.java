@@ -1,13 +1,16 @@
 package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
+import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -69,5 +72,16 @@ public class EquipmentLevelingEvent {
             EquipmentLevelingData hoveredItemData = hoveredItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
             tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetLevelExperienceThreshold()));
         }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
+        ItemStack itemInHand = event.getPlayer().getMainHandItem();
+        // Récupération du bloc que le joueur vient de casser.
+        Block block = event.getState().getBlock();
+
+        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement onBlockBreak.
+        ExperienceHandler.OnBlockBreak(itemInHand, block);
     }
 }
