@@ -2,14 +2,15 @@ package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.Set;
 
 @Mod.EventBusSubscriber
@@ -35,8 +36,6 @@ public class EquipmentLevelingEvent {
                 return;
             }
             craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, defaultData);
-            LocalPlayer player = (LocalPlayer) event.getEntity();
-            player.sendSystemMessage(Component.literal("Niveau de l'item crafté : " + craftedItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA).GetLevel()));
         }
     }
 
