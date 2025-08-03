@@ -1,5 +1,6 @@
 package fr.noahboos.essor.component;
 
+import fr.noahboos.essor.loader.ExperienceDataRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -30,7 +31,10 @@ public class ExperienceHandler {
         } else if (itemInHand.getItem() instanceof HoeItem) {
 
         } else if (itemInHand.getItem() instanceof PickaxeItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE.get(blockId);
+                AddExperience(data, experienceToAdd);
+            }
         } else if (itemInHand.getItem() instanceof ShovelItem) {
 
         }
