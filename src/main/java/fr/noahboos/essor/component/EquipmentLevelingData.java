@@ -6,6 +6,12 @@ public class EquipmentLevelingData {
     private float currentExperience;
 
     // Constructeur de la classe
+    public EquipmentLevelingData() {
+        this.level = 1;
+        this.levelExperienceThreshold = 100;
+        this.currentExperience = 0f;
+    }
+
     public EquipmentLevelingData(int level, int levelExperienceThreshold, float currentExperience) {
         this.level = level;
         this.levelExperienceThreshold = levelExperienceThreshold;
