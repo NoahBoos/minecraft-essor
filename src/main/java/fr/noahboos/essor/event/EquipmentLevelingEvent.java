@@ -39,4 +39,18 @@ public class EquipmentLevelingEvent {
             player.sendSystemMessage(Component.literal("Niveau de l'item crafté : " + craftedItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA).GetLevel()));
         }
     }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        // Référence du tooltip affiché.
+        List<Component> tooltip = event.getToolTip();
+        // Récupération de l'item que le joueur survole dans son inventaire.
+        ItemStack hoveredItem = event.getItemStack();
+
+        // Si l'item possède le composant de données "DC_EQUIPMENT_LEVELING_DATA", on ajoute au tooltip les informations relatives à l'expérience de l'item.
+        if (hoveredItem.has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+            EquipmentLevelingData hoveredItemData = hoveredItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+            tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetLevelExperienceThreshold()));
+        }
+    }
 }
