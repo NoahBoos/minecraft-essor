@@ -39,6 +39,17 @@ public class EquipmentLevelingEvent {
     }
 
     @SubscribeEvent
+    public static void onItemPickedUp(EntityItemPickupEvent event) {
+        // Récupération de l'item ramassé.
+        ItemStack pickedUpItem = event.getItem().getItem();
+
+        // Si l'item est une pièce d'équipement améliorable et qu'il ne possède pas le composant de données "DC_EQUIPMENT_LEVELING_DATA", on le lui ajoute.
+        if (UPGRADABLE_ITEM_CLASSES.contains(pickedUpItem.getItem().getClass()) && !pickedUpItem.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+            pickedUpItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData(1, 100, 0f));
+        }
+    }
+
+    @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         // Référence du tooltip affiché.
         List<Component> tooltip = event.getToolTip();
