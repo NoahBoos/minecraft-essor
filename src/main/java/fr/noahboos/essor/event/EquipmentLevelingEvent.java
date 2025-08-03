@@ -24,7 +24,7 @@ public class EquipmentLevelingEvent {
 
     @SubscribeEvent
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
-        // Récupération de l'item fabriqué et de la liste de ses composants de données.
+        // Récupération de l'item fabriqué.
         ItemStack craftedItem = event.getCrafting();
 
         // Si l'item n'est pas une pièce d'équipement améliorable, on arrête l'exécution de la fonction.
