@@ -53,4 +53,22 @@ public class ExperienceHandler {
             }
         }
     }
+
+    public static void OnRightClickBlock(ItemStack itemInHand, Block block) {
+        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
+        EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
+        String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
+
+        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
+        if (itemInHand.getItem() instanceof AxeItem) {
+
+        } else if (itemInHand.getItem() instanceof HoeItem) {
+
+        } else if (itemInHand.getItem() instanceof ShearsItem) {
+
+        } else if (itemInHand.getItem() instanceof ShovelItem) {
+
+        }
+    }
 }

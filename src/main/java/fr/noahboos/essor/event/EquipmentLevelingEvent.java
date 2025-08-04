@@ -3,6 +3,8 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +16,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Mod.EventBusSubscriber
 public class EquipmentLevelingEvent {
@@ -25,6 +26,9 @@ public class EquipmentLevelingEvent {
             ArmorItem.class, BowItem.class, CrossbowItem.class, TridentItem.class, ShieldItem.class,
             FishingRodItem.class, FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
+
+    // Un Integer entreposant la durabilité de l'item utilisé pour effectuer une action. Il est utilisé comme un moyen de sécurité évitant la multiple exécution des méthodes relatives à l'ajout d'expérience dans certains écouteurs d'évènements.
+    private static int itemDurability = -1;
 
     @SubscribeEvent
     public static void OnItemCrafted(PlayerEvent.ItemCraftedEvent event) {
@@ -83,5 +87,22 @@ public class EquipmentLevelingEvent {
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement onBlockBreak.
         ExperienceHandler.OnBlockBreak(itemInHand, block);
+    }
+
+    @SubscribeEvent
+    public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
+        ItemStack itemInHand = event.getItemStack();
+        // Récupération de la position du bloc sur lequel le joueur vient de cliquer.
+        BlockPos blockPosition = event.getPos();
+        // Récupération du bloc sur lequel le joueur vient de cliquer.
+        Block block = event.getLevel().getBlockState(blockPosition).getBlock();
+
+        if (itemDurability == event.getItemStack().getDamageValue()) {
+            // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
+            ExperienceHandler.OnRightClickBlock(itemInHand, block);
+        }
+
+        itemDurability = event.getItemStack().getDamageValue();
     }
 }
