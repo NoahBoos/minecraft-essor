@@ -4,7 +4,6 @@ import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -23,7 +22,7 @@ public class EquipmentLevelingEvent {
     private static final Set<Class<?>> UPGRADABLE_ITEM_CLASSES  = Set.of(
             SwordItem.class, PickaxeItem.class, AxeItem.class, ShovelItem.class, HoeItem.class,
             ArmorItem.class, BowItem.class, CrossbowItem.class, TridentItem.class, ShieldItem.class,
-            FishingRodItem.class, FlintAndSteelItem.class, MaceItem.class
+            FishingRodItem.class, FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
     @SubscribeEvent

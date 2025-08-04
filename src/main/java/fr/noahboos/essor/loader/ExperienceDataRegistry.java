@@ -14,6 +14,7 @@ public class ExperienceDataRegistry {
     public static final Map<String, Float> EXPERIENCE_DATA_HOE;
     public static final Map<String, Float> EXPERIENCE_DATA_MACE;
     public static final Map<String, Float> EXPERIENCE_DATA_PICKAXE;
+    public static final Map<String, Float> EXPERIENCE_DATA_SHEAR;
     public static final Map<String, Float> EXPERIENCE_DATA_SHIELD;
     public static final Map<String, Float> EXPERIENCE_DATA_SHOVEL;
     public static final Map<String, Float> EXPERIENCE_DATA_SWORD;
@@ -29,6 +30,7 @@ public class ExperienceDataRegistry {
         EXPERIENCE_DATA_HOE = JsonLoader.LoadExperienceData(path + "hoe.json");
         EXPERIENCE_DATA_MACE = JsonLoader.LoadExperienceData(path + "mace.json");
         EXPERIENCE_DATA_PICKAXE = JsonLoader.LoadExperienceData(path + "pickaxe.json");
+        EXPERIENCE_DATA_SHEAR = JsonLoader.LoadExperienceData(path + "shear.json");
         EXPERIENCE_DATA_SHIELD = JsonLoader.LoadExperienceData(path + "shield.json");
         EXPERIENCE_DATA_SHOVEL = JsonLoader.LoadExperienceData(path + "shovel.json");
         EXPERIENCE_DATA_SWORD = JsonLoader.LoadExperienceData(path + "sword.json");
