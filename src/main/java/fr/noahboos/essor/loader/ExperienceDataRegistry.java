@@ -18,6 +18,7 @@ public class ExperienceDataRegistry {
     public static final Map<String, Float> EXPERIENCE_DATA_PICKAXE;
     public static final Map<String, Float> EXPERIENCE_DATA_SHEAR_BREAKABLE;
     public static final Map<String, Float> EXPERIENCE_DATA_SHEAR_CUTTABLE;
+    public static final Map<String, Float> EXPERIENCE_DATA_SHEAR_SHEARABLE;
     public static final Map<String, Float> EXPERIENCE_DATA_SHIELD;
     public static final Map<String, Float> EXPERIENCE_DATA_SHOVEL_BREAKABLE;
     public static final Map<String, Float> EXPERIENCE_DATA_SHOVEL_DIGGABLE;
@@ -38,6 +39,7 @@ public class ExperienceDataRegistry {
         EXPERIENCE_DATA_PICKAXE = JsonLoader.LoadExperienceData(path + "pickaxe.json");
         EXPERIENCE_DATA_SHEAR_BREAKABLE = JsonLoader.LoadExperienceData(path + "shear-breakable.json");
         EXPERIENCE_DATA_SHEAR_CUTTABLE = JsonLoader.LoadExperienceData(path + "shear-cuttable.json");
+        EXPERIENCE_DATA_SHEAR_SHEARABLE = JsonLoader.LoadExperienceData(path + "shear-shearable.json");
         EXPERIENCE_DATA_SHIELD = JsonLoader.LoadExperienceData(path + "shield.json");
         EXPERIENCE_DATA_SHOVEL_BREAKABLE = JsonLoader.LoadExperienceData(path + "shovel-breakable.json");
         EXPERIENCE_DATA_SHOVEL_DIGGABLE = JsonLoader.LoadExperienceData(path + "shovel-diggable.json");
