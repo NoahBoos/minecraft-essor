@@ -27,8 +27,8 @@ public class EquipmentLevelingEvent {
             FishingRodItem.class, FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
-    // Un Integer entreposant la durabilité de l'item utilisé pour effectuer une action. Il est utilisé comme un moyen de sécurité évitant la multiple exécution des méthodes relatives à l'ajout d'expérience dans certains écouteurs d'évènements.
-    private static int itemDurability = -1;
+    // @LEGACY Un Integer entreposant la durabilité de l'item utilisé pour effectuer une action. Il est utilisé comme un moyen de sécurité évitant la multiple exécution des méthodes relatives à l'ajout d'expérience dans certains écouteurs d'évènements.
+    // private static int itemDurability = -1;
 
     @SubscribeEvent
     public static void OnItemCrafted(PlayerEvent.ItemCraftedEvent event) {
