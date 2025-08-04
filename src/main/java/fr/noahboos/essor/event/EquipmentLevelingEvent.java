@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,7 +27,7 @@ public class EquipmentLevelingEvent {
     );
 
     @SubscribeEvent
-    public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+    public static void OnItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         // Récupération de l'item fabriqué.
         ItemStack craftedItem = event.getCrafting();
 
@@ -49,7 +50,7 @@ public class EquipmentLevelingEvent {
     }
 
     @SubscribeEvent
-    public static void onItemPickedUp(EntityItemPickupEvent event) {
+    public static void OnItemPickedUp(EntityItemPickupEvent event) {
         // Récupération de l'item ramassé.
         ItemStack pickedUpItem = event.getItem().getItem();
 
@@ -60,7 +61,7 @@ public class EquipmentLevelingEvent {
     }
 
     @SubscribeEvent
-    public static void onItemTooltip(ItemTooltipEvent event) {
+    public static void OnItemTooltip(ItemTooltipEvent event) {
         // Référence du tooltip affiché.
         List<Component> tooltip = event.getToolTip();
         // Récupération de l'item que le joueur survole dans son inventaire.
@@ -74,7 +75,7 @@ public class EquipmentLevelingEvent {
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+    public static void OnBlockBreak(BlockEvent.BreakEvent event) {
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getPlayer().getMainHandItem();
         // Récupération du bloc que le joueur vient de casser.
