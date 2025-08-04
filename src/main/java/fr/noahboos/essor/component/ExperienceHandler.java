@@ -139,7 +139,10 @@ public class ExperienceHandler {
 
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main secondaire.
         if (offHandItem.getItem() instanceof ShieldItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE.get(entityId);
+                AddExperience(offHandItemData, experienceToAdd);
+            }
         }
     }
 }
