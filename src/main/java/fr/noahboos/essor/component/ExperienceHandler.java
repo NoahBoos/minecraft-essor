@@ -126,7 +126,10 @@ public class ExperienceHandler {
                 AddExperience(mainHandItemData, experienceToAdd);
             }
         } else if (mainHandItem.getItem() instanceof SwordItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE.get(entityId);
+                AddExperience(mainHandItemData, experienceToAdd);
+            }
         } else if (mainHandItem.getItem() instanceof TridentItem) {
 
         }
