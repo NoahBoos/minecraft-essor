@@ -4,8 +4,8 @@ import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -100,5 +100,16 @@ public class EquipmentLevelingEvent {
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
         ExperienceHandler.OnRightClickBlock(itemInHand, block);
+    }
+
+    @SubscribeEvent
+    public static void OnRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+        // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
+        ItemStack itemInHand = event.getItemStack();
+        // Récupération de l'entité avec laquelle le joueur a intéragi.
+        Entity entity = event.getTarget();
+
+        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickEntity.
+        ExperienceHandler.OnRightClickEntity(itemInHand, entity);
     }
 }

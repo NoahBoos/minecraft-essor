@@ -2,6 +2,7 @@ package fr.noahboos.essor.component;
 
 import fr.noahboos.essor.loader.ExperienceDataRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 
@@ -79,6 +80,21 @@ public class ExperienceHandler {
         } else if (itemInHand.getItem() instanceof ShovelItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE.containsKey(blockId)) {
                 Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE.get(blockId);
+                AddExperience(data, experienceToAdd);
+            }
+        }
+    }
+
+    public static void OnRightClickEntity(ItemStack itemInHand, Entity entity) {
+        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
+        EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+
+        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
+        if (itemInHand.getItem() instanceof ShearsItem) {
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE.get(entityId);
                 AddExperience(data, experienceToAdd);
             }
         }
