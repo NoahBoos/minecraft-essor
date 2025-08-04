@@ -39,8 +39,8 @@ public class ExperienceHandler {
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof PickaxeItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE.get(blockId);
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE.get(blockId);
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShearsItem) {
