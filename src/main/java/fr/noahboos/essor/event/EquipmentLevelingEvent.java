@@ -3,6 +3,7 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
@@ -132,9 +133,9 @@ public class EquipmentLevelingEvent {
         }
 
         // Récupération de l'item que le joueur a dans sa main principale au moment où il tue l'entité.
-        ItemStack mainHandItem = damageSource.getWeaponItem();
+        ItemStack mainHandItem = Minecraft.getInstance().player.getMainHandItem();
         // Récupération de l'item que le joueur a dans sa main secondaire au moment où il tue l'entité.
-        ItemStack offHandItem = ((Player) killerEntity).getOffhandItem();
+        ItemStack offHandItem = Minecraft.getInstance().player.getOffhandItem();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
         ExperienceHandler.OnEntityDeath(mainHandItem, offHandItem, deadEntity);
