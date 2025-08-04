@@ -102,8 +102,10 @@ public class ExperienceHandler {
     }
 
     public static void OnEntityDeath(ItemStack mainHandItem, ItemStack offHandItem, LivingEntity deadEntity) {
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
-        EquipmentLevelingData data = mainHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main principale au moment où il a fait un click droit sur le bloc.
+        EquipmentLevelingData mainHandItemData = mainHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main secondaire au moment où il a fait un click droit sur le bloc.
+        EquipmentLevelingData offHandItemData = offHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
 
