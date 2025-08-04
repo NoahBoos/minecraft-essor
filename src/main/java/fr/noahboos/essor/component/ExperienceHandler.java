@@ -116,7 +116,10 @@ public class ExperienceHandler {
                 AddExperience(mainHandItemData, experienceToAdd);
             }
         } else if (mainHandItem.getItem() instanceof CrossbowItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE.get(entityId);
+                AddExperience(mainHandItemData, experienceToAdd);
+            }
         } else if (mainHandItem.getItem() instanceof MaceItem) {
 
         } else if (mainHandItem.getItem() instanceof SwordItem) {
