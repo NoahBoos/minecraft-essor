@@ -98,11 +98,7 @@ public class EquipmentLevelingEvent {
         // Récupération du bloc sur lequel le joueur vient de cliquer.
         Block block = event.getLevel().getBlockState(blockPosition).getBlock();
 
-        if (itemDurability == event.getItemStack().getDamageValue()) {
-            // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
-            ExperienceHandler.OnRightClickBlock(itemInHand, block);
-        }
-
-        itemDurability = event.getItemStack().getDamageValue();
+        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
+        ExperienceHandler.OnRightClickBlock(itemInHand, block);
     }
 }
