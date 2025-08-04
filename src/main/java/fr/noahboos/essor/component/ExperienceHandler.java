@@ -3,6 +3,7 @@ package fr.noahboos.essor.component;
 import fr.noahboos.essor.loader.ExperienceDataRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 
@@ -97,6 +98,31 @@ public class ExperienceHandler {
                 Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE.get(entityId);
                 AddExperience(data, experienceToAdd);
             }
+        }
+    }
+
+    public static void OnEntityDeath(ItemStack mainHandItem, ItemStack offHandItem, LivingEntity deadEntity) {
+        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
+        EquipmentLevelingData data = mainHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
+
+        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main principale.
+        if (mainHandItem.getItem() instanceof BowItem) {
+
+        } else if (mainHandItem.getItem() instanceof CrossbowItem) {
+
+        } else if (mainHandItem.getItem() instanceof MaceItem) {
+
+        } else if (mainHandItem.getItem() instanceof SwordItem) {
+
+        } else if (mainHandItem.getItem() instanceof TridentItem) {
+
+        }
+
+        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main secondaire.
+        if (offHandItem.getItem() instanceof ShieldItem) {
+
         }
     }
 }

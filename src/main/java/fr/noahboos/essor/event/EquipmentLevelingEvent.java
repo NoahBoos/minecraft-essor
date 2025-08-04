@@ -5,9 +5,13 @@ import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -111,5 +115,28 @@ public class EquipmentLevelingEvent {
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickEntity.
         ExperienceHandler.OnRightClickEntity(itemInHand, entity);
+    }
+
+    @SubscribeEvent
+    public static void OnEntityDeath(LivingDeathEvent event) {
+        // Récupération de l'entité tuée.
+        LivingEntity deadEntity = event.getEntity();
+        // Récupération de la source des dégâts.
+        DamageSource damageSource = event.getSource();
+        // Récupération de l'entité étant la source des dégâts.
+        Entity killerEntity = damageSource.getEntity();
+
+        // Vérifie si l'entité étant la source des dégâts fataux.
+        if (!(killerEntity instanceof Player)) {
+            return;
+        }
+
+        // Récupération de l'item que le joueur a dans sa main principale au moment où il tue l'entité.
+        ItemStack mainHandItem = damageSource.getWeaponItem();
+        // Récupération de l'item que le joueur a dans sa main secondaire au moment où il tue l'entité.
+        ItemStack offHandItem = ((Player) killerEntity).getOffhandItem();
+
+        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
+        ExperienceHandler.OnEntityDeath(mainHandItem, offHandItem, deadEntity);
     }
 }
