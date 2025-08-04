@@ -27,13 +27,13 @@ public class ExperienceHandler {
 
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
         if (itemInHand.getItem() instanceof AxeItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_AXE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE.get(blockId);
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE.get(blockId);
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof HoeItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_HOE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE.get(blockId);
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE.get(blockId);
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof PickaxeItem) {
@@ -42,13 +42,13 @@ public class ExperienceHandler {
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShearsItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR.get(blockId);
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE.get(blockId);
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShovelItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL.get(blockId);
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE.get(blockId);
                 AddExperience(data, experienceToAdd);
             }
         }
