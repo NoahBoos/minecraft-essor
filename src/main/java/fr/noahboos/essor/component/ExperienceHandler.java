@@ -39,7 +39,10 @@ public class ExperienceHandler {
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShovelItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL.containsKey(blockId)) {
+                Float experienceToAdd= ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL.get(blockId);
+                AddExperience(data, experienceToAdd);
+            }
         }
     }
 }
