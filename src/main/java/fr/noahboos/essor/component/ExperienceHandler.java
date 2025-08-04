@@ -67,7 +67,10 @@ public class ExperienceHandler {
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof HoeItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE.get(blockId);
+                AddExperience(data, experienceToAdd);
+            }
         } else if (itemInHand.getItem() instanceof ShearsItem) {
 
         } else if (itemInHand.getItem() instanceof ShovelItem) {
