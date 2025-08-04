@@ -111,7 +111,10 @@ public class ExperienceHandler {
 
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main principale.
         if (mainHandItem.getItem() instanceof BowItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE.get(entityId);
+                AddExperience(mainHandItemData, experienceToAdd);
+            }
         } else if (mainHandItem.getItem() instanceof CrossbowItem) {
 
         } else if (mainHandItem.getItem() instanceof MaceItem) {
