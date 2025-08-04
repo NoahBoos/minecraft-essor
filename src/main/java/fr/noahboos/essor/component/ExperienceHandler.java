@@ -131,7 +131,10 @@ public class ExperienceHandler {
                 AddExperience(mainHandItemData, experienceToAdd);
             }
         } else if (mainHandItem.getItem() instanceof TridentItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE.containsKey(entityId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE.get(entityId);
+                AddExperience(mainHandItemData, experienceToAdd);
+            }
         }
 
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main secondaire.
