@@ -27,7 +27,10 @@ public class ExperienceHandler {
 
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
         if (itemInHand.getItem() instanceof AxeItem) {
-
+            if (ExperienceDataRegistry.EXPERIENCE_DATA_AXE.containsKey(blockId)) {
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE.get(blockId);
+                AddExperience(data, experienceToAdd);
+            }
         } else if (itemInHand.getItem() instanceof HoeItem) {
 
         } else if (itemInHand.getItem() instanceof PickaxeItem) {
