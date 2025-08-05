@@ -1,3 +1,103 @@
 {
+  "minecraft:cobblestone": 0.5,
+  "minecraft:stone": 1.0,
+  "minecraft:stone_bricks": 1.0,
+  "minecraft:cracked_stone_bricks": 1.0,
+  "minecraft:chiseled_stone_bricks": 1.0,
+  "minecraft:mossy_stone_bricks": 1.0,
 
+  "minecraft:infested_cobblestone": 0.75,
+  "minecraft:infested_stone": 1.25,
+  "minecraft:infested_stone_bricks": 1.25,
+  "minecraft:infested_cracked_stone_bricks": 1.25,
+  "minecraft:infested_chiseled_stone_bricks": 1.25,
+  "minecraft:infested_mossy_stone_bricks": 1.25,
+
+  "minecraft:cobbled_deepslate": 1.0,
+  "minecraft:deepslate": 2.0,
+  "minecraft:polished_deepslate": 2.25,
+  "minecraft:deepslate_tiles": 2.25,
+  "minecraft:deepslate_bricks": 2.5,
+  "minecraft:chiseled_deepslate": 2.25,
+  "minecraft:cracked_deepslate_tiles": 2.25,
+  "minecraft:cracked_deepslate_bricks": 2.5,
+
+  "minecraft:granite": 1.5,
+  "minecraft:polished_granite": 1.75,
+
+  "minecraft:diorite": 1.5,
+  "minecraft:polished_diorite": 1.75,
+
+  "minecraft:andesite": 1.5,
+  "minecraft:polished_andesite": 1.75,
+
+  "minecraft:amethyst_block": 2.5,
+  "minecraft:budding_amethyst": 2.5,
+
+  "minecraft:calcite": 2.5,
+
+  "minecraft:basalt": 2.5,
+  "minecraft:smooth_basalt": 2.75,
+  "minecraft:polished_basalt": 2.75,
+
+  "minecraft:dripstone_block": 1.5,
+
+  "minecraft:sandstone": 1.25,
+  "minecraft:cut_sandstone": 1.5,
+  "minecraft:smooth_sandstone": 1.5,
+  "minecraft:chiseled_sandstone": 1.5,
+
+  "minecraft:red_sandstone": 1.5,
+  "minecraft:cut_red_sandstone": 1.75,
+  "minecraft:smooth_red_sandstone": 1.75,
+  "minecraft:chiseled_red_sandstone": 1.75,
+
+  "minecraft:coal_ore": 2.5,
+  "minecraft:deepslate_coal_ore": 3.75,
+
+  "minecraft:copper_ore": 0.75,
+  "minecraft:deepslate_copper_ore": 1.25,
+
+  "minecraft:iron_ore": 4,
+  "minecraft:deepslate_iron_ore": 6,
+
+  "minecraft:gold_ore": 5,
+  "minecraft:deepslate_gold_ore": 7.5,
+  "minecraft:nether_gold_ore": 0.75,
+
+  "minecraft:lapis_ore": 0.5,
+  "minecraft:deepslate_lapis_ore": 0.75,
+
+  "minecraft:redstone_ore": 0.5,
+  "minecraft:deepslate_redstone_ore": 0.75,
+
+  "minecraft:diamond_ore": 20.0,
+  "minecraft:deepslate_diamond_ore": 30.0,
+
+  "minecraft:emerald_ore": 25.0,
+  "minecraft:deepslate_emerald_ore": 37.5,
+
+  "minecraft:ancient_debris": 50,
+
+  "minecraft:obsidian": 22.5,
+  "minecraft:crying_obsidian": 22.5,
+
+  "minecraft:netherrack": 1.0,
+  "minecraft:nether_bricks": 1.25,
+  "minecraft:cracked_nether_bricks": 1.25,
+  "minecraft:chiseled_nether_bricks": 1.25,
+
+  "minecraft:red_nether_bricks": 1.25,
+
+  "minecraft:nether_quartz_ore":  1.25,
+
+  "minecraft:blackstone": 2.5,
+  "minecraft:polished_blackstone": 3,
+  "minecraft:polished_blackstone_bricks": 3,
+  "minecraft:chiseled_polished_blackstone": 3,
+  "minecraft:cracked_polished_blackstone_bricks": 3,
+  "minecraft:gilded_blackstone": 5,
+
+  "minecraft:end_stone": 2.5,
+  "minecraft:end_stone_bricks": 4
 }
