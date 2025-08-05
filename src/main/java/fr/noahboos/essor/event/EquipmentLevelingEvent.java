@@ -5,6 +5,7 @@ import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,8 +91,11 @@ public class EquipmentLevelingEvent {
         // Récupération du bloc que le joueur vient de casser.
         Block block = event.getState().getBlock();
 
+        List<ItemStack> drops = Block.getDrops(event.getState(), ((ServerLevel) event.getLevel()), event.getPos(), event.getLevel().getBlockEntity(event.getPos()), event.getPlayer(), itemInHand);
+        int totalDropCount = drops.stream().mapToInt(ItemStack::getCount).sum();
+
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement onBlockBreak.
-        ExperienceHandler.OnBlockBreak(itemInHand, block);
+        ExperienceHandler.OnBlockBreak(itemInHand, block, totalDropCount);
     }
 
     @SubscribeEvent

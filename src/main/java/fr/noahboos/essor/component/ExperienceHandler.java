@@ -23,7 +23,7 @@ public class ExperienceHandler {
         data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
     }
 
-    public static void OnBlockBreak(ItemStack itemInHand, Block block) {
+    public static void OnBlockBreak(ItemStack itemInHand, Block block, Integer totalDropCount) {
         // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a cassé le bloc.
         EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet du bloc que le joueur a cassé.
@@ -32,27 +32,27 @@ public class ExperienceHandler {
         // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
         if (itemInHand.getItem() instanceof AxeItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE.get(blockId);
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE.get(blockId) * totalDropCount;
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof HoeItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE.get(blockId);
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE.get(blockId) * totalDropCount;
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof PickaxeItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE.get(blockId);
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE.get(blockId) * totalDropCount;
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShearsItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE.get(blockId);
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE.get(blockId) * totalDropCount;
                 AddExperience(data, experienceToAdd);
             }
         } else if (itemInHand.getItem() instanceof ShovelItem) {
             if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE.get(blockId);
+                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE.get(blockId) * totalDropCount;
                 AddExperience(data, experienceToAdd);
             }
         }
