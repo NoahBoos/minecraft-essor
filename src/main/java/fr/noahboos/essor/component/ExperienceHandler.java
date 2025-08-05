@@ -7,6 +7,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 
+import java.util.EnumMap;
+
 public class ExperienceHandler {
     static void AddExperience(EquipmentLevelingData data, float experienceToAdd) {
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
@@ -143,6 +145,41 @@ public class ExperienceHandler {
                 Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE.get(entityId);
                 AddExperience(offHandItemData, experienceToAdd);
             }
+        }
+    }
+
+    public static void OnEntityHurt(Float damageAmount, Iterable<ItemStack> hurtArmor) {
+        // Déclaration d'une map au format <ArmorItem.Type, EquipmentLevelingData> pour simplifier le code et éviter un switch dans le jeu de condition suivant.
+        EnumMap<ArmorItem.Type, EquipmentLevelingData> armorItemData = new  EnumMap<>(ArmorItem.Type.class);
+        // Si le joueur portait une armure, alors extrait les composants de données de chaque pièce en les injectant dans la map déclaré en haut.
+        if (hurtArmor != null) {
+            for (ItemStack item : hurtArmor) {
+                if (item.getItem() instanceof ArmorItem armorItem) {
+                    armorItemData.put(armorItem.getType(), item.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA));
+                }
+            }
+        }
+
+        // Récupération des composants de données "DC_EQUIPMENT_LEVELING_DATA" des éléments de l'armure.
+        EquipmentLevelingData helmetItemData = armorItemData.getOrDefault(ArmorItem.Type.HELMET, null);
+        EquipmentLevelingData chestplateItemData = armorItemData.getOrDefault(ArmorItem.Type.CHESTPLATE, null);
+        EquipmentLevelingData leggingsItemData = armorItemData.getOrDefault(ArmorItem.Type.LEGGINGS, null);
+        EquipmentLevelingData bootsItemData = armorItemData.getOrDefault(ArmorItem.Type.BOOTS, null);
+        // Somme des points d'expériences à ajouter à l'armure.
+        float experienceToAddToArmor = (float) (damageAmount * 2.5);
+
+        // Jeu de conditions if accueillant le code relatif aux gains d'expériences pour les pièces d'armures du joueur ayant encaissé les dégâts..
+        if (helmetItemData != null) {
+            AddExperience(helmetItemData, experienceToAddToArmor);
+        }
+        if (chestplateItemData != null) {
+            AddExperience(chestplateItemData, experienceToAddToArmor);
+        }
+        if (leggingsItemData != null) {
+            AddExperience(leggingsItemData, experienceToAddToArmor);
+        }
+        if (bootsItemData != null) {
+            AddExperience(bootsItemData, experienceToAddToArmor);
         }
     }
 }

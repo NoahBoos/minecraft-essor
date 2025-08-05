@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -127,7 +128,7 @@ public class EquipmentLevelingEvent {
         // Récupération de l'entité étant la source des dégâts.
         Entity killerEntity = damageSource.getEntity();
 
-        // Vérifie si l'entité étant la source des dégâts fataux.
+        // Vérifie si l'entité étant la source des dégâts fataux est un joueur.
         if (!(killerEntity instanceof Player)) {
             return;
         }
@@ -139,5 +140,23 @@ public class EquipmentLevelingEvent {
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
         ExperienceHandler.OnEntityDeath(mainHandItem, offHandItem, deadEntity);
+    }
+
+    @SubscribeEvent
+    public static void OnEntityHurt(LivingHurtEvent event) {
+        // Récupération de l'entité blessée.
+        LivingEntity hurtEntity = event.getEntity();
+        // Collection itérable contenant les pièces d'armures équipées par le joueur blessé au moment où il a pris les dégâts.
+        Iterable<ItemStack> hurtArmor = null;
+        // Somme des dégâts encaissés par le joueur blessé.
+        Float damageAmount = event.getAmount();
+
+        // Si l'entité blessée est un joueur, alors on récupère son armure qu'on entrepose dans l'objet itérable hurtArmor.
+        if (hurtEntity instanceof Player) {
+            hurtArmor = hurtEntity.getArmorSlots();
+        }
+
+        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityHurt().
+        ExperienceHandler.OnEntityHurt(damageAmount, hurtArmor);
     }
 }
