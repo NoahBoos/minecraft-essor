@@ -1,0 +1,77 @@
+{
+  "1": {
+    "unbreaking": 1
+  },
+  "3": {
+    "looting": 1
+  },
+  "5": {
+    "bane_of_arthropods": 1
+  },
+  "7": {
+    "smite": 1
+  },
+  "9": {
+    "sharpness": 2
+  },
+  "11": {
+    "unbreaking": 2
+  },
+  "13": {
+    "looting": 2
+  },
+  "15": {
+    "bane_of_arthropods": 2
+  },
+  "17": {
+    "smite": 2
+  },
+  "19": {
+    "sharpness": 2
+  },
+  "21": {
+    "unbreaking": 3
+  },
+  "23": {
+    "looting": 3
+  },
+  "25": {
+    "bane_of_arthropods": 3
+  },
+  "27": {
+    "smite": 3
+  },
+  "29": {
+    "sharpness": 3
+  },
+  "31": {
+    "unbreaking": 4
+  },
+  "33": {
+    "looting": 4
+  },
+  "35": {
+    "bane_of_arthropods": 4
+  },
+  "37": {
+    "smite": 4
+  },
+  "39": {
+    "sharpness": 4
+  },
+  "41": {
+    "unbreaking": 5
+  },
+  "43": {
+    "looting": 5
+  },
+  "45": {
+    "bane_of_arthropods": 5
+  },
+  "47": {
+    "smite": 5
+  },
+  "49": {
+    "sharpness": 5
+  }
+}
