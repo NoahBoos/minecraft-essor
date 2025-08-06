@@ -1,3 +1,29 @@
 {
+  "minecraft:black_wool": 2.0,
+  "minecraft:blue_wool": 2.0,
+  "minecraft:brown_wool": 2.0,
+  "minecraft:cyan_wool": 2.0,
+  "minecraft:gray_wool": 2.0,
+  "minecraft:green_wool": 2.0,
+  "minecraft:light_blue_wool": 2.0,
+  "minecraft:light_gray_wool": 2.0,
+  "minecraft:lime_wool": 2.0,
+  "minecraft:magenta_wool": 2.0,
+  "minecraft:orange_wool": 2.0,
+  "minecraft:pink_wool": 2.0,
+  "minecraft:purple_wool": 2.0,
+  "minecraft:red_wool": 2.0,
+  "minecraft:yellow_wool": 2.0,
+  "minecraft:white_wool": 2.0,
 
+  "minecraft:acacia_leaves": 2.0,
+  "minecraft:azalea_leaves": 2.0,
+  "minecraft:birch_leaves": 2.0,
+  "minecraft:dark_oak_leaves": 2.0,
+  "minecraft:flowering_azalea_leaves": 2.0,
+  "minecraft:jungle_leaves": 2.0,
+  "minecraft:oak_leaves": 2.0,
+  "minecraft:spruce_leaves": 2.0,
+
+  "minecraft:vine": 2.0
 }
