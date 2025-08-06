@@ -1,4 +1,6 @@
-package fr.noahboos.essor.loader;
+package fr.noahboos.essor.registry;
+
+import fr.noahboos.essor.loader.JsonLoader;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package fr.noahboos.essor.component;
 
-import fr.noahboos.essor.loader.ExperienceDataRegistry;
+import fr.noahboos.essor.registry.ExperienceDataRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
