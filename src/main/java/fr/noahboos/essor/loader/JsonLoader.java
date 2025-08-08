@@ -25,14 +25,14 @@ public class JsonLoader {
         }
     }
 
-    public static Map<String, Map<String, Integer>> LoadRewardData(String path) {
+    public static Map<Integer, Map<String, Integer>> LoadRewardData(String path) {
         try (InputStream stream = JsonLoader.class.getClassLoader().getResourceAsStream(path)) {
             if (stream == null) {
                 throw new  RuntimeException("Failed to load reward data from " + path);
             }
             Reader reader = new InputStreamReader(stream);
             Gson gson = new Gson();
-            Type type = new TypeToken<Map<String, Map<String, Integer>>>(){}.getType();
+            Type type = new TypeToken<Map<Integer, Map<String, Integer>>>(){}.getType();
             return gson.fromJson(reader, type);
         } catch (Exception exception) {
             exception.printStackTrace();

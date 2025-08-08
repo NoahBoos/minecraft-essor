@@ -25,6 +25,23 @@ public class EnchantmentRewardDataRegistry {
     public static final Map<String, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SHOVEL;
     public static final Map<String, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SWORD;
     public static final Map<String, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_TRIDENT;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_HELMET;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_CHESTPLATE;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_LEGGINGS;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_BOOTS;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_AXE;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_BOW;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_CROSSBOW;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_FISHING_ROD;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_FLINT_AND_STEEL;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_HOE;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_MACE;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_PICKAXE;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SHEAR;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SHIELD;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SHOVEL;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SWORD;
+    public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_TRIDENT;
 
     static {
         ENCHANTMENT_REWARD_DATA_HELMET = JsonLoader.LoadRewardData(path + "helmet.json");
