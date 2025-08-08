@@ -7,11 +7,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EnchantmentRegistry {
     private static RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
-    public static Map<String, Holder<Enchantment>> DEFAULT_ENCHANTMENTS;
+    public static Map<String, Holder<Enchantment>> DEFAULT_ENCHANTMENTS= new HashMap<>();
 
     static {
         DEFAULT_ENCHANTMENTS.put("unbreaking", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.UNBREAKING));
