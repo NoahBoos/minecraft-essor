@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnchantmentRewardDataRegistry {
-    public static String path = "data/essor/reward/enchantments";
+    public static String path = "data/essor/reward/enchantments/";
 
     public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_HELMET;
     public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_CHESTPLATE;
