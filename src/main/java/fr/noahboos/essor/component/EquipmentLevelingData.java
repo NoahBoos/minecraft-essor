@@ -7,7 +7,7 @@ public class EquipmentLevelingData {
 
     // Constructeur de la classe
     public EquipmentLevelingData() {
-        this.level = 1;
+        this.level = 0;
         this.levelExperienceThreshold = 100;
         this.currentExperience = 0f;
     }
