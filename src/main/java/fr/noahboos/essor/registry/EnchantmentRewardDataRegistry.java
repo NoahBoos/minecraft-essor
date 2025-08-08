@@ -3,6 +3,7 @@ package fr.noahboos.essor.registry;
 import fr.noahboos.essor.loader.JsonLoader;
 import net.minecraft.world.item.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EnchantmentRewardDataRegistry {
@@ -26,8 +27,8 @@ public class EnchantmentRewardDataRegistry {
     public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_SWORD;
     public static final Map<Integer, Map<String, Integer>> ENCHANTMENT_REWARD_DATA_TRIDENT;
 
-    public static Map<ArmorItem.Type, Map<Integer, Map<String, Integer>>> ENCHANTMENT_REWARD_DATA_ARMOR;
-    public static Map<Class<?>, Map<Integer, Map<String, Integer>>> ENCHANTMENT_REWARD_DATA_ITEMS;
+    public static Map<ArmorItem.Type, Map<Integer, Map<String, Integer>>> ENCHANTMENT_REWARD_DATA_ARMOR = new HashMap<>();
+    public static Map<Class<?>, Map<Integer, Map<String, Integer>>> ENCHANTMENT_REWARD_DATA_ITEMS = new HashMap<>();
 
     static {
         ENCHANTMENT_REWARD_DATA_HELMET = JsonLoader.LoadRewardData(path + "helmet.json");
