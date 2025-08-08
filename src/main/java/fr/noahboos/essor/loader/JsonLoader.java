@@ -2,7 +2,6 @@ package fr.noahboos.essor.loader;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import net.minecraftforge.unsafe.UnsafeFieldAccess;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
