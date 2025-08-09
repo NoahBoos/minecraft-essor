@@ -35,7 +35,7 @@ public class ExperienceHandler {
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
         data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
-
+        itemToLevelUp.setDamageValue(0);
         if (itemToLevelUp.getItem() instanceof ArmorItem) {
             boolean upgraded = false;
             for (ArmorItem.Type type : ArmorItem.Type.values()) {
