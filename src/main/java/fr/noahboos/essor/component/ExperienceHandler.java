@@ -12,11 +12,18 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.lang3.tuple.Pair;
+import org.joml.Random;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 
 public class ExperienceHandler {
+    // Un set regroupant l'entièreté des classes correspondant à une pièce d'équipement améliorable.
+    private static final Set<Class<?>> UPGRADABLE_ITEM_CLASSES  = Set.of(
+            SwordItem.class, PickaxeItem.class, AxeItem.class, ShovelItem.class, HoeItem.class,
+            BowItem.class, CrossbowItem.class, TridentItem.class, ShieldItem.class, FishingRodItem.class,
+            FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
+    );
+
     static void AddExperience(Level level, EquipmentLevelingData data, float experienceToAdd, ItemStack itemToExperience) {
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
         while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
@@ -28,6 +35,115 @@ public class ExperienceHandler {
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
         data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
+
+        if (itemToLevelUp.getItem() instanceof ArmorItem) {
+            boolean upgraded = false;
+            for (ArmorItem.Type type : ArmorItem.Type.values()) {
+                if (upgraded) {
+                    break;
+                }
+                if (((ArmorItem) itemToLevelUp.getItem()).getType().equals(type)) {
+                    Map<Integer, Map<String, Integer>> rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(type);
+                    if (rewardsTable.containsKey(data.GetLevel())) {
+                        Map<String, Integer> reward = rewardsTable.get(data.GetLevel());
+                        Iterator<Map.Entry<String, Integer>> rewardIterator = reward.entrySet().iterator();
+                        Map.Entry<String, Integer> rewardEntry = null;
+                        Holder<Enchantment> enchantmentHolder = null;
+                        Integer enchantmentLevel = null;
+                        boolean enchantmentIsPrepared = false;
+
+                        List<Holder<Enchantment>> enchantmentHolders = new ArrayList<>();
+                        for (Map.Entry<String, Integer> entry : reward.entrySet()) {
+                            enchantmentHolders.add(EnchantmentRegistry.GetEnchantmentByID(entry.getKey(), level.registryAccess()));
+                        }
+                        for (Holder<Enchantment> enchantToCompare : enchantmentHolders) {
+                            if (itemToLevelUp.getEnchantments().keySet().contains(enchantToCompare)) {
+                                enchantmentHolder = enchantToCompare;
+                                enchantmentLevel = itemToLevelUp.getEnchantments().getLevel(enchantmentHolder) + 1;
+                                enchantmentIsPrepared = true;
+                                break;
+                            }
+                        }
+                        if (!enchantmentIsPrepared) {
+                            if (reward.size() == 1) {
+                                rewardEntry = reward.entrySet().iterator().next();
+                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
+                                enchantmentLevel = rewardEntry.getValue();
+                            } else {
+                                Random random = new Random();
+                                int rewardToAttributeIndex = random.nextInt(reward.size());
+                                int iterationCount = 0;
+                                while (rewardIterator.hasNext() && iterationCount <= rewardToAttributeIndex) {
+                                    rewardEntry = rewardIterator.next();
+                                    iterationCount++;
+                                }
+                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
+                                enchantmentLevel = rewardEntry.getValue();
+                            }
+                        }
+                        if (enchantmentHolder != null && enchantmentLevel != null) {
+                            itemToLevelUp.enchant(enchantmentHolder, enchantmentLevel);
+                        }
+                        upgraded = true;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } else {
+            boolean upgraded = false;
+            for (Class<?> type : UPGRADABLE_ITEM_CLASSES) {
+                if (upgraded) {
+                    break;
+                }
+                if (((Item) itemToLevelUp.getItem()).getClass().equals(type)) {
+                    Map<Integer, Map<String, Integer>> rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
+                    if (rewardsTable.containsKey(data.GetLevel())) {
+                        Map<String, Integer> reward = rewardsTable.get(data.GetLevel());
+                        Iterator<Map.Entry<String, Integer>> rewardIterator = reward.entrySet().iterator();
+                        Map.Entry<String, Integer> rewardEntry = null;
+                        Holder<Enchantment> enchantmentHolder = null;
+                        Integer enchantmentLevel = null;
+                        boolean enchantmentIsPrepared = false;
+
+                        List<Holder<Enchantment>> enchantmentHolders = new ArrayList<>();
+                        for (Map.Entry<String, Integer> entry : reward.entrySet()) {
+                            enchantmentHolders.add(EnchantmentRegistry.GetEnchantmentByID(entry.getKey(), level.registryAccess()));
+                        }
+                        for (Holder<Enchantment> enchantToCompare : enchantmentHolders) {
+                            if (itemToLevelUp.getEnchantments().keySet().contains(enchantToCompare)) {
+                                enchantmentHolder = enchantToCompare;
+                                enchantmentLevel = itemToLevelUp.getEnchantments().getLevel(enchantmentHolder) + 1;
+                                enchantmentIsPrepared = true;
+                                break;
+                            }
+                        }
+                        if (!enchantmentIsPrepared) {
+                            if (reward.size() == 1) {
+                                rewardEntry = reward.entrySet().iterator().next();
+                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
+                                enchantmentLevel = rewardEntry.getValue();
+                            } else {
+                                Random random = new Random();
+                                int rewardToAttributeIndex = random.nextInt(reward.size());
+                                int iterationCount = 0;
+                                while (rewardIterator.hasNext() && iterationCount <= rewardToAttributeIndex) {
+                                    rewardEntry = rewardIterator.next();
+                                    iterationCount++;
+                                }
+                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
+                                enchantmentLevel = rewardEntry.getValue();
+                            }
+                        }
+                        if (enchantmentHolder != null && enchantmentLevel != null) {
+                            itemToLevelUp.enchant(enchantmentHolder, enchantmentLevel);
+                        }
+                        upgraded = true;
+                    }
+                }
+            }
+
+        }
     }
 
     public static void OnBlockBreak(Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
