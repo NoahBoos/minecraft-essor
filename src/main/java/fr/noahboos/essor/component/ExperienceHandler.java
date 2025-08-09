@@ -3,6 +3,7 @@ package fr.noahboos.essor.component;
 import fr.noahboos.essor.registry.EnchantmentRegistry;
 import fr.noahboos.essor.registry.EnchantmentRewardDataRegistry;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
+import fr.noahboos.essor.utils.ExperienceUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +25,7 @@ public class ExperienceHandler {
             FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
-    static void AddExperience(Level level, EquipmentLevelingData data, float experienceToAdd, ItemStack itemToExperience) {
+    public static void AddExperience(Level level, EquipmentLevelingData data, float experienceToAdd, ItemStack itemToExperience) {
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
         while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
             LevelUp(level, data, itemToExperience);
@@ -147,12 +148,10 @@ public class ExperienceHandler {
     }
 
     public static void OnBlockBreak(Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a cassé le bloc.
-        EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet du bloc que le joueur a cassé.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
             AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
             HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
             PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
@@ -160,74 +159,39 @@ public class ExperienceHandler {
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
-            if (entry.getKey().isInstance(itemInHand.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(blockId)) {
-                    Float experienceToAdd =  experienceRegistry.get(blockId) * totalDropCount;
-                    AddExperience(level, data, experienceToAdd, itemInHand);
-                }
-                break;
-            }
-        }
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId);
     }
 
     public static void OnRightClickBlock(Level level, ItemStack itemInHand, Block block) {
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
-        EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
             AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
             HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
             ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
-            if (entry.getKey().isInstance(itemInHand.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(blockId)) {
-                    Float experienceToAdd =  experienceRegistry.get(blockId);
-                    AddExperience(level, data, experienceToAdd, itemInHand);
-                }
-                break;
-            }
-        }
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId);
     }
 
     public static void OnRightClickEntity(Level level, ItemStack itemInHand, Entity entity) {
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main au moment où il a fait un click droit sur le bloc.
-        EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
             ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
-            if (entry.getKey().isInstance(itemInHand.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(entityId)) {
-                    Float experienceToAdd =  experienceRegistry.get(entityId);
-                    AddExperience(level, data, experienceToAdd, itemInHand);
-                }
-                break;
-            }
-        }
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, entityId);
     }
 
     public static void OnEntityDeath(Level level, ItemStack mainHandItem, ItemStack offHandItem, LivingEntity deadEntity) {
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main principale au moment où il a fait un click droit sur le bloc.
-        EquipmentLevelingData mainHandItemData = mainHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
-        // Récupération du composant de données "DC_EQUIPMENT_LEVELING_DATA" attaché à l'item que le joueur avait dans sa main secondaire au moment où il a fait un click droit sur le bloc.
-        EquipmentLevelingData offHandItemData = offHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
             BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
             CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
             MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
@@ -236,27 +200,9 @@ public class ExperienceHandler {
             ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
         );
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
-            if (entry.getKey().isInstance(mainHandItem.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(entityId)) {
-                    Float experienceToAdd =  experienceRegistry.get(entityId);
-                    AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
-                }
-                break;
-            }
-        }
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, mainHandItem, entityId);
         // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
-            if (entry.getKey().isInstance(offHandItem.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(entityId)) {
-                    Float experienceToAdd =  experienceRegistry.get(entityId);
-                    AddExperience(level, offHandItemData, experienceToAdd, offHandItem);
-                }
-                break;
-            }
-        }
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, offHandItem, entityId);
     }
 
     public static void OnEntityHurt(Level level, Float damageAmount, Iterable<ItemStack> hurtArmor) {
