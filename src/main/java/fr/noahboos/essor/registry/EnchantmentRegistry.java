@@ -1,6 +1,5 @@
 package fr.noahboos.essor.registry;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -11,10 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnchantmentRegistry {
-    private static RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
     public static Map<String, Holder<Enchantment>> DEFAULT_ENCHANTMENTS= new HashMap<>();
+    private static boolean initialized = false;
 
-    static {
+    public static void Initialize(RegistryAccess registryAccess) {
+        if (initialized) {
+            return;
+        }
+
+        if (registryAccess == null) {
+            throw new IllegalStateException("The minecraft level registry access is null!");
+        }
+
         DEFAULT_ENCHANTMENTS.put("unbreaking", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.UNBREAKING));
         DEFAULT_ENCHANTMENTS.put("protection", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PROTECTION));
         DEFAULT_ENCHANTMENTS.put("projectile_protection", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PROJECTILE_PROTECTION));
@@ -44,6 +51,16 @@ public class EnchantmentRegistry {
         DEFAULT_ENCHANTMENTS.put("loyalty", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOYALTY));
         DEFAULT_ENCHANTMENTS.put("riptide", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.RIPTIDE));
         DEFAULT_ENCHANTMENTS.put("impaling", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.IMPALING));
-        DEFAULT_ENCHANTMENTS.put("CHANNELING", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.CHANNELING));
+        DEFAULT_ENCHANTMENTS.put("channeling", registryAccess.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.CHANNELING));
+
+        initialized = true;
+    }
+
+    public static Holder<Enchantment> GetEnchantmentByID(String id, RegistryAccess registryAccess) {
+        if (!initialized) {
+            Initialize(registryAccess);
+        }
+
+        return DEFAULT_ENCHANTMENTS.get(id);
     }
 }
