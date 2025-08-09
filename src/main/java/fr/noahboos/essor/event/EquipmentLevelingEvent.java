@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -95,7 +96,7 @@ public class EquipmentLevelingEvent {
         int totalDropCount = drops.stream().mapToInt(ItemStack::getCount).sum();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement onBlockBreak.
-        ExperienceHandler.OnBlockBreak(itemInHand, block, totalDropCount);
+        ExperienceHandler.OnBlockBreak(event.getPlayer().level(), itemInHand, block, totalDropCount);
     }
 
     @SubscribeEvent
@@ -108,7 +109,7 @@ public class EquipmentLevelingEvent {
         Block block = event.getLevel().getBlockState(blockPosition).getBlock();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
-        ExperienceHandler.OnRightClickBlock(itemInHand, block);
+        ExperienceHandler.OnRightClickBlock(event.getLevel(), itemInHand, block);
     }
 
     @SubscribeEvent
@@ -119,7 +120,7 @@ public class EquipmentLevelingEvent {
         Entity entity = event.getTarget();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickEntity.
-        ExperienceHandler.OnRightClickEntity(itemInHand, entity);
+        ExperienceHandler.OnRightClickEntity(event.getLevel(), itemInHand, entity);
     }
 
     @SubscribeEvent
@@ -142,7 +143,7 @@ public class EquipmentLevelingEvent {
         ItemStack offHandItem = ((Player) killerEntity).getOffhandItem();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
-        ExperienceHandler.OnEntityDeath(mainHandItem, offHandItem, deadEntity);
+        ExperienceHandler.OnEntityDeath(event.getEntity().level(), mainHandItem, offHandItem, deadEntity);
     }
 
     @SubscribeEvent
@@ -160,6 +161,6 @@ public class EquipmentLevelingEvent {
         }
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityHurt().
-        ExperienceHandler.OnEntityHurt(damageAmount, hurtArmor);
+        ExperienceHandler.OnEntityHurt(event.getEntity().getServer().getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
     }
 }
