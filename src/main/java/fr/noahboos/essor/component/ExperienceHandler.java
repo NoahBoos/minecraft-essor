@@ -184,7 +184,7 @@ public class ExperienceHandler {
             ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
-        // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
+        // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
         for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
             if (entry.getKey().isInstance(itemInHand.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
@@ -206,7 +206,7 @@ public class ExperienceHandler {
         Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
             ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
         );
-        // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
+        // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
         for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
             if (entry.getKey().isInstance(itemInHand.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
@@ -226,40 +226,35 @@ public class ExperienceHandler {
         EquipmentLevelingData offHandItemData = offHandItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
-
-        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main principale.
-        if (mainHandItem.getItem() instanceof BowItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE.get(entityId);
-                AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
-            }
-        } else if (mainHandItem.getItem() instanceof CrossbowItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE.get(entityId);
-                AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
-            }
-        } else if (mainHandItem.getItem() instanceof MaceItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE.get(entityId);
-                AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
-            }
-        } else if (mainHandItem.getItem() instanceof SwordItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE.get(entityId);
-                AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
-            }
-        } else if (mainHandItem.getItem() instanceof TridentItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE.get(entityId);
-                AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
+        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
+        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+            BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
+            CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
+            MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
+            SwordItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE,
+            TridentItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE,
+            ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
+        );
+        // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
+        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
+            if (entry.getKey().isInstance(mainHandItem.getItem())) {
+                Map<String, Float> experienceRegistry = entry.getValue();
+                if (experienceRegistry.containsKey(entityId)) {
+                    Float experienceToAdd =  experienceRegistry.get(entityId);
+                    AddExperience(level, mainHandItemData, experienceToAdd, mainHandItem);
+                }
+                break;
             }
         }
-
-        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences pour l'item dans la main secondaire.
-        if (offHandItem.getItem() instanceof ShieldItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE.get(entityId);
-                AddExperience(level, offHandItemData, experienceToAdd, offHandItem);
+        // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
+        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
+            if (entry.getKey().isInstance(offHandItem.getItem())) {
+                Map<String, Float> experienceRegistry = entry.getValue();
+                if (experienceRegistry.containsKey(entityId)) {
+                    Float experienceToAdd =  experienceRegistry.get(entityId);
+                    AddExperience(level, offHandItemData, experienceToAdd, offHandItem);
+                }
+                break;
             }
         }
     }
