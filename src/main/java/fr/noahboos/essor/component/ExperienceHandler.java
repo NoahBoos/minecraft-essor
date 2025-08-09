@@ -177,27 +177,22 @@ public class ExperienceHandler {
         EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
-
-        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
-        if (itemInHand.getItem() instanceof AxeItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE.get(blockId);
-                AddExperience(level, data, experienceToAdd, itemInHand);
-            }
-        } else if (itemInHand.getItem() instanceof HoeItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE.get(blockId);
-                AddExperience(level, data, experienceToAdd, itemInHand);
-            }
-        } else if (itemInHand.getItem() instanceof ShearsItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE.get(blockId);
-                AddExperience(level, data, experienceToAdd, itemInHand);
-            }
-        } else if (itemInHand.getItem() instanceof ShovelItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE.containsKey(blockId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE.get(blockId);
-                AddExperience(level, data, experienceToAdd, itemInHand);
+        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
+        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
+                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
+                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
+                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
+        );
+        // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
+        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
+            if (entry.getKey().isInstance(itemInHand.getItem())) {
+                Map<String, Float> experienceRegistry = entry.getValue();
+                if (experienceRegistry.containsKey(blockId)) {
+                    Float experienceToAdd =  experienceRegistry.get(blockId);
+                    AddExperience(level, data, experienceToAdd, itemInHand);
+                }
+                break;
             }
         }
     }
