@@ -153,11 +153,11 @@ public class ExperienceHandler {
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
-          AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
-          HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
-          PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
-          ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE,
-          ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
+            AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
+            HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
+            PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
+            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE,
+            ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
         for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
@@ -179,10 +179,10 @@ public class ExperienceHandler {
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
-                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
-                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
-                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
-                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
+            AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
+            HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
+            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
+            ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
         for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
@@ -202,12 +202,19 @@ public class ExperienceHandler {
         EquipmentLevelingData data = itemInHand.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
-
-        // Jeu de conditions if/else accueillant le code relatif aux gains d'expériences.
-        if (itemInHand.getItem() instanceof ShearsItem) {
-            if (ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE.containsKey(entityId)) {
-                Float experienceToAdd = ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE.get(entityId);
-                AddExperience(level, data, experienceToAdd, itemInHand);
+        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
+        Map<Class<?>, Map<String, Float>> toolExperienceMap = Map.of(
+            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
+        );
+        // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
+        for (Map.Entry<Class<?>, Map<String, Float>> entry : toolExperienceMap.entrySet()) {
+            if (entry.getKey().isInstance(itemInHand.getItem())) {
+                Map<String, Float> experienceRegistry = entry.getValue();
+                if (experienceRegistry.containsKey(entityId)) {
+                    Float experienceToAdd =  experienceRegistry.get(entityId);
+                    AddExperience(level, data, experienceToAdd, itemInHand);
+                }
+                break;
             }
         }
     }
