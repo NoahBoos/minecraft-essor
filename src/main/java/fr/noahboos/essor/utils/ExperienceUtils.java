@@ -23,7 +23,7 @@ public class ExperienceUtils {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
                     Float experienceToAdd =  experienceRegistry.get(registryKey);
-                    AddExperience(level, itemToExperienceData, experienceToAdd, itemToExperience);
+                    AddExperience(level, itemToExperience, experienceToAdd);
                 }
                 break;
             }

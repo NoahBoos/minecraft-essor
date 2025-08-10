@@ -21,18 +21,20 @@ public class ExperienceHandler {
             FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
-    public static void AddExperience(Level level, EquipmentLevelingData data, float experienceToAdd, ItemStack itemToExperience) {
+    public static void AddExperience(Level level, ItemStack itemToExperience,  float experienceToAdd) {
+        EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
         while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
-            LevelUp(level, data, itemToExperience);
+            LevelUp(level, itemToExperience);
         }
     }
 
-    static void LevelUp(Level level, EquipmentLevelingData data, ItemStack itemToLevelUp) {
+    static void LevelUp(Level level, ItemStack itemToLevelUp) {
+        EquipmentLevelingData data = itemToLevelUp.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         // Incrémente le niveau et ajuste les points d'expériences et le seuil d'expérience en conséquence.
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
-        data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
+        data.SetLevelExperienceThreshold(100 + (100 * data.GetLevel()));
         // Répare complètement l'item en réinitialisant la quantité de durabilité manquante.
         itemToLevelUp.setDamageValue(0);
         // Map contenant la table de récompenses suivant le format Map<Niveau, Map<ID_Enchantement, Niveau_Enchantement>>.
@@ -131,7 +133,7 @@ public class ExperienceHandler {
         for (ArmorItem.Type type : ArmorItem.Type.values()) {
             Pair<ItemStack, EquipmentLevelingData> pair = armorItemData.get(type);
             if (pair != null && pair.getRight() != null) {
-                AddExperience(level, pair.getRight(), experienceToAddToArmor, pair.getLeft());
+                AddExperience(level, pair.getLeft(), experienceToAddToArmor);
             }
         }
     }
