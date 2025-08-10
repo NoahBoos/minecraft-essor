@@ -32,7 +32,7 @@ public class ExperienceHandler {
         // Incrémente le niveau et ajuste les points d'expériences et le seuil d'expérience en conséquence.
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
-        data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
+        data.SetLevelExperienceThreshold(100 + (100 * data.GetLevel()));
         // Répare complètement l'item en réinitialisant la quantité de durabilité manquante.
         itemToLevelUp.setDamageValue(0);
         // Map contenant la table de récompenses suivant le format Map<Niveau, Map<ID_Enchantement, Niveau_Enchantement>>.
