@@ -1,19 +1,15 @@
 package fr.noahboos.essor.component;
 
-import fr.noahboos.essor.registry.EnchantmentRegistry;
 import fr.noahboos.essor.registry.EnchantmentRewardDataRegistry;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
 import fr.noahboos.essor.utils.ExperienceUtils;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.lang3.tuple.Pair;
-import org.joml.Random;
 
 import java.util.*;
 
@@ -33,117 +29,28 @@ public class ExperienceHandler {
     }
 
     static void LevelUp(Level level, EquipmentLevelingData data, ItemStack itemToLevelUp) {
+        // Incrémente le niveau et ajuste les points d'expériences et le seuil d'expérience en conséquence.
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
         data.SetLevelExperienceThreshold(data.GetLevelExperienceThreshold() + 100);
+        // Répare complètement l'item en réinitialisant la quantité de durabilité manquante.
         itemToLevelUp.setDamageValue(0);
+        // Map contenant la table de récompenses suivant le format Map<Niveau, Map<ID_Enchantement, Niveau_Enchantement>>.
+        Map<Integer, Map<String, Integer>> rewardsTable = null;
+        // Batterie if/else permettant de réaffecter rewardsTable.
         if (itemToLevelUp.getItem() instanceof ArmorItem) {
-            boolean upgraded = false;
-            for (ArmorItem.Type type : ArmorItem.Type.values()) {
-                if (upgraded) {
-                    break;
-                }
-                if (((ArmorItem) itemToLevelUp.getItem()).getType().equals(type)) {
-                    Map<Integer, Map<String, Integer>> rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(type);
-                    if (rewardsTable.containsKey(data.GetLevel())) {
-                        Map<String, Integer> reward = rewardsTable.get(data.GetLevel());
-                        Iterator<Map.Entry<String, Integer>> rewardIterator = reward.entrySet().iterator();
-                        Map.Entry<String, Integer> rewardEntry = null;
-                        Holder<Enchantment> enchantmentHolder = null;
-                        Integer enchantmentLevel = null;
-                        boolean enchantmentIsPrepared = false;
-
-                        List<Holder<Enchantment>> enchantmentHolders = new ArrayList<>();
-                        for (Map.Entry<String, Integer> entry : reward.entrySet()) {
-                            enchantmentHolders.add(EnchantmentRegistry.GetEnchantmentByID(entry.getKey(), level.registryAccess()));
-                        }
-                        for (Holder<Enchantment> enchantToCompare : enchantmentHolders) {
-                            if (itemToLevelUp.getEnchantments().keySet().contains(enchantToCompare)) {
-                                enchantmentHolder = enchantToCompare;
-                                enchantmentLevel = itemToLevelUp.getEnchantments().getLevel(enchantmentHolder) + 1;
-                                enchantmentIsPrepared = true;
-                                break;
-                            }
-                        }
-                        if (!enchantmentIsPrepared) {
-                            if (reward.size() == 1) {
-                                rewardEntry = reward.entrySet().iterator().next();
-                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
-                                enchantmentLevel = rewardEntry.getValue();
-                            } else {
-                                Random random = new Random();
-                                int rewardToAttributeIndex = random.nextInt(reward.size());
-                                int iterationCount = 0;
-                                while (rewardIterator.hasNext() && iterationCount <= rewardToAttributeIndex) {
-                                    rewardEntry = rewardIterator.next();
-                                    iterationCount++;
-                                }
-                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
-                                enchantmentLevel = rewardEntry.getValue();
-                            }
-                        }
-                        if (enchantmentHolder != null && enchantmentLevel != null) {
-                            itemToLevelUp.enchant(enchantmentHolder, enchantmentLevel);
-                        }
-                        upgraded = true;
-                    } else {
-                        break;
-                    }
-                }
-            }
+            rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(((ArmorItem) itemToLevelUp.getItem()).getType());
         } else {
-            boolean upgraded = false;
             for (Class<?> type : UPGRADABLE_ITEM_CLASSES) {
-                if (upgraded) {
+                if (((Item) itemToLevelUp.getItem()).getClass().equals(type)) {
+                    rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
                     break;
                 }
-                if (((Item) itemToLevelUp.getItem()).getClass().equals(type)) {
-                    Map<Integer, Map<String, Integer>> rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
-                    if (rewardsTable.containsKey(data.GetLevel())) {
-                        Map<String, Integer> reward = rewardsTable.get(data.GetLevel());
-                        Iterator<Map.Entry<String, Integer>> rewardIterator = reward.entrySet().iterator();
-                        Map.Entry<String, Integer> rewardEntry = null;
-                        Holder<Enchantment> enchantmentHolder = null;
-                        Integer enchantmentLevel = null;
-                        boolean enchantmentIsPrepared = false;
-
-                        List<Holder<Enchantment>> enchantmentHolders = new ArrayList<>();
-                        for (Map.Entry<String, Integer> entry : reward.entrySet()) {
-                            enchantmentHolders.add(EnchantmentRegistry.GetEnchantmentByID(entry.getKey(), level.registryAccess()));
-                        }
-                        for (Holder<Enchantment> enchantToCompare : enchantmentHolders) {
-                            if (itemToLevelUp.getEnchantments().keySet().contains(enchantToCompare)) {
-                                enchantmentHolder = enchantToCompare;
-                                enchantmentLevel = itemToLevelUp.getEnchantments().getLevel(enchantmentHolder) + 1;
-                                enchantmentIsPrepared = true;
-                                break;
-                            }
-                        }
-                        if (!enchantmentIsPrepared) {
-                            if (reward.size() == 1) {
-                                rewardEntry = reward.entrySet().iterator().next();
-                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
-                                enchantmentLevel = rewardEntry.getValue();
-                            } else {
-                                Random random = new Random();
-                                int rewardToAttributeIndex = random.nextInt(reward.size());
-                                int iterationCount = 0;
-                                while (rewardIterator.hasNext() && iterationCount <= rewardToAttributeIndex) {
-                                    rewardEntry = rewardIterator.next();
-                                    iterationCount++;
-                                }
-                                enchantmentHolder = EnchantmentRegistry.GetEnchantmentByID(rewardEntry.getKey(), level.registryAccess());
-                                enchantmentLevel = rewardEntry.getValue();
-                            }
-                        }
-                        if (enchantmentHolder != null && enchantmentLevel != null) {
-                            itemToLevelUp.enchant(enchantmentHolder, enchantmentLevel);
-                        }
-                        upgraded = true;
-                    }
-                }
             }
-
+        }
+        // Si une table existe et si elle contient des informations concernant une récompense pour le nouveau niveau de la pièce d'équipement, alors on applique l'enchantement.
+        if (rewardsTable != null && rewardsTable.containsKey(data.GetLevel())) {
+            ExperienceUtils.ApplyEnchantmentForLevelUp(level, rewardsTable, itemToLevelUp);
         }
     }
 
