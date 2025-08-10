@@ -44,7 +44,7 @@ public class ExperienceHandler {
             rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(((ArmorItem) itemToLevelUp.getItem()).getType());
         } else {
             for (Class<?> type : UPGRADABLE_ITEM_CLASSES) {
-                if (((Item) itemToLevelUp.getItem()).getClass().equals(type)) {
+                if (itemToLevelUp.getItem().getClass().equals(type)) {
                     rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
                     break;
                 }
@@ -68,7 +68,7 @@ public class ExperienceHandler {
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId);
+        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId, totalDropCount);
     }
 
     public static void OnRightClickBlock(Level level, ItemStack itemInHand, Block block) {
