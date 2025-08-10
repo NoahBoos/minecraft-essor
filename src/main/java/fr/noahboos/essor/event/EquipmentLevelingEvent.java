@@ -5,6 +5,7 @@ import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -81,6 +82,7 @@ public class EquipmentLevelingEvent {
         // Si l'item possède le composant de données "DC_EQUIPMENT_LEVELING_DATA", on ajoute au tooltip les informations relatives à l'expérience de l'item.
         if (hoveredItem.has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
             EquipmentLevelingData hoveredItemData = hoveredItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+            if (hoveredItemData == null) return;
             tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetLevelExperienceThreshold()));
         }
     }
@@ -148,6 +150,9 @@ public class EquipmentLevelingEvent {
 
     @SubscribeEvent
     public static void OnEntityHurt(LivingHurtEvent event) {
+        // Récupération du serveur.
+        MinecraftServer server = event.getEntity().getServer();
+        if (server == null) return;
         // Récupération de l'entité blessée.
         LivingEntity hurtEntity = event.getEntity();
         // Collection itérable contenant les pièces d'armures équipées par le joueur blessé au moment où il a pris les dégâts.
@@ -161,6 +166,6 @@ public class EquipmentLevelingEvent {
         }
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityHurt().
-        ExperienceHandler.OnEntityHurt(event.getEntity().getServer().getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
+        ExperienceHandler.OnEntityHurt(server.getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
     }
 }

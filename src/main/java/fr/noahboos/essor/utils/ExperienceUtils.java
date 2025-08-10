@@ -33,7 +33,7 @@ public class ExperienceUtils {
             if (entry.getKey().isInstance(itemToExperience.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
-                    Float experienceToAdd =  experienceRegistry.get(registryKey) * experienceMultiplier;
+                    float experienceToAdd =  experienceRegistry.get(registryKey) * experienceMultiplier;
                     AddExperience(level, itemToExperience, experienceToAdd);
                 }
                 break;
@@ -42,11 +42,12 @@ public class ExperienceUtils {
     }
 
     public static void ApplyEnchantmentForLevelUp(Level level, Map<Integer, Map<String, Integer>> rewardsTable, ItemStack itemToEnchant) {
+        // Récupération du conteneur de données attaché à l'item à enchanter.
+        EquipmentLevelingData data = itemToEnchant.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
         // Récupère le jeu de récompenses possibles pour le niveau actuel.
-        Map<String, Integer> reward = rewardsTable.get(itemToEnchant.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA).GetLevel());
-        if (reward == null || reward.isEmpty()) {
-            return;
-        }
+        Map<String, Integer> reward = rewardsTable.get(data.GetLevel());
+        if (reward == null || reward.isEmpty()) return;
         // Converti les clés de récompense en Holder<Enchantment>.
         Map<Holder<Enchantment>, Integer> rewardEnchantments = reward.entrySet().stream().collect(Collectors.toMap(
                 e -> EnchantmentRegistry.GetEnchantmentByID(e.getKey(), level.registryAccess()),

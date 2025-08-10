@@ -22,7 +22,10 @@ public class ExperienceHandler {
     );
 
     public static void AddExperience(Level level, ItemStack itemToExperience,  float experienceToAdd) {
+        // Récupération du conteneur de données attaché à l'item à améliorer.
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
+        // Code relatif au gain d'expérience.
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
         while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
             LevelUp(level, itemToExperience);
@@ -30,7 +33,9 @@ public class ExperienceHandler {
     }
 
     static void LevelUp(Level level, ItemStack itemToLevelUp) {
+        // Récupération du conteneur de données attaché à l'item à améliorer.
         EquipmentLevelingData data = itemToLevelUp.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
         // Incrémente le niveau et ajuste les points d'expériences et le seuil d'expérience en conséquence.
         data.SetLevel(data.GetLevel() + 1);
         data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
