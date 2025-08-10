@@ -2,7 +2,7 @@
   "1": {
     "unbreaking": 1
   },
-  "2": {
+  "3": {
     "protection": 1,
     "projectile_protection": 1,
     "blast_protection": 1,
@@ -17,7 +17,7 @@
   "6": {
     "unbreaking": 2
   },
-  "7": {
+  "8": {
     "protection": 2,
     "projectile_protection": 2,
     "blast_protection": 2,
@@ -32,7 +32,7 @@
   "11": {
     "unbreaking": 3
   },
-  "12": {
+  "13": {
     "protection": 3,
     "projectile_protection": 3,
     "blast_protection": 3,
@@ -47,7 +47,7 @@
   "16": {
     "unbreaking": 4
   },
-  "17": {
+  "18": {
     "protection": 4,
     "projectile_protection": 4,
     "blast_protection": 4,
@@ -62,7 +62,7 @@
   "21": {
     "unbreaking": 5
   },
-  "22": {
+  "23": {
     "protection": 5,
     "projectile_protection": 5,
     "blast_protection": 5,
