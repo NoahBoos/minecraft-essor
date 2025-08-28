@@ -132,7 +132,7 @@ public class ExperienceHandler {
         }
 
         // Somme des points d'expériences à ajouter à l'armure.
-        float experienceToAddToArmor = (float) (damageAmount * 2.5);
+        float experienceToAddToArmor = (float) (damageAmount * 3.75);
 
         // Itération directe sur les types d’armure
         for (ArmorItem.Type type : ArmorItem.Type.values()) {
