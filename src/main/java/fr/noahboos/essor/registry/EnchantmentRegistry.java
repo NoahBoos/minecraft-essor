@@ -57,6 +57,7 @@ public class EnchantmentRegistry {
         Register(enchantmentRegistry, "riptide", Enchantments.RIPTIDE);
         Register(enchantmentRegistry, "impaling", Enchantments.IMPALING);
         Register(enchantmentRegistry, "channeling", Enchantments.CHANNELING);
+        Register(enchantmentRegistry, "fire_aspect", Enchantments.FIRE_ASPECT);
 
         initialized = true;
     }
