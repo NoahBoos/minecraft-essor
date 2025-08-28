@@ -84,6 +84,13 @@ public class EquipmentLevelingEvent {
             EquipmentLevelingData hoveredItemData = hoveredItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
             if (hoveredItemData == null) return;
             tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetLevelExperienceThreshold()));
+
+            StringBuilder progressBar = new StringBuilder();
+            int segments = 25;
+            int filledSegments = (int) (((float) hoveredItemData.GetCurrentExperience() / (float) hoveredItemData.GetLevelExperienceThreshold()) * segments);
+            progressBar.append("§a█".repeat(Math.max(0, filledSegments)));
+            progressBar.append("§7█".repeat(Math.max(0, segments - filledSegments)));
+            tooltip.add(Component.literal(progressBar.toString()));
         }
     }
 
