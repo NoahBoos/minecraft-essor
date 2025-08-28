@@ -4,8 +4,10 @@ import fr.noahboos.essor.registry.EnchantmentRewardDataRegistry;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
 import fr.noahboos.essor.utils.ExperienceUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,18 +23,18 @@ public class ExperienceHandler {
             FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
-    public static void AddExperience(Level level, ItemStack itemToExperience,  float experienceToAdd) {
+    public static void AddExperience(Player player, Level level, ItemStack itemToExperience,  float experienceToAdd) {
         // Récupération du conteneur de données attaché à l'item à améliorer.
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         if (data == null) return;
         // Code relatif au gain d'expérience.
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
         while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
-            LevelUp(level, itemToExperience);
+            LevelUp(player, level, itemToExperience);
         }
     }
 
-    static void LevelUp(Level level, ItemStack itemToLevelUp) {
+    static void LevelUp(Player player, Level level, ItemStack itemToLevelUp) {
         // Récupération du conteneur de données attaché à l'item à améliorer.
         EquipmentLevelingData data = itemToLevelUp.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         if (data == null) return;
@@ -59,9 +61,11 @@ public class ExperienceHandler {
         if (rewardsTable != null && rewardsTable.containsKey(data.GetLevel())) {
             ExperienceUtils.ApplyEnchantmentForLevelUp(level, rewardsTable, itemToLevelUp);
         }
+
+        player.sendSystemMessage(Component.translatable("chat.essor.levelUpMessage", itemToLevelUp.getDisplayName(), data.GetLevel()));
     }
 
-    public static void OnBlockBreak(Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
+    public static void OnBlockBreak(Player player, Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
         // Identifiant complet du bloc que le joueur a cassé.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
@@ -73,10 +77,10 @@ public class ExperienceHandler {
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId, totalDropCount);
+        ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, blockId, totalDropCount);
     }
 
-    public static void OnRightClickBlock(Level level, ItemStack itemInHand, Block block) {
+    public static void OnRightClickBlock(Player player, Level level, ItemStack itemInHand, Block block) {
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
@@ -87,10 +91,10 @@ public class ExperienceHandler {
             ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, blockId);
+        ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, blockId);
     }
 
-    public static void OnRightClickEntity(Level level, ItemStack itemInHand, Entity entity) {
+    public static void OnRightClickEntity(Player player, Level level, ItemStack itemInHand, Entity entity) {
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
@@ -98,10 +102,10 @@ public class ExperienceHandler {
             ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, itemInHand, entityId);
+        ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, entityId);
     }
 
-    public static void OnEntityDeath(Level level, ItemStack mainHandItem, ItemStack offHandItem, LivingEntity deadEntity) {
+    public static void OnEntityDeath(Player player, Level level, ItemStack mainHandItem, ItemStack offHandItem, LivingEntity deadEntity) {
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
@@ -114,12 +118,12 @@ public class ExperienceHandler {
             ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
         );
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, mainHandItem, entityId);
+        ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, mainHandItem, entityId);
         // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceUtils.VerifyAndApplyExperience(level, experienceRegistriesMap, offHandItem, entityId);
+        ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, offHandItem, entityId);
     }
 
-    public static void OnEntityHurt(Level level, Float damageAmount, Iterable<ItemStack> hurtArmor) {
+    public static void OnEntityHurt(Player player, Level level, Float damageAmount, Iterable<ItemStack> hurtArmor) {
         // Déclaration d'une map au format <ArmorItem.Type, Pair<ItemStack, EquipmentLevelingData>> pour simplifier le code et éviter un switch dans le jeu de condition suivant.
         EnumMap<ArmorItem.Type, Pair<ItemStack, EquipmentLevelingData>> armorItemData = new  EnumMap<>(ArmorItem.Type.class);
         // Si le joueur portait une armure, alors extrait les composants de données de chaque pièce en les injectant dans la map déclaré en haut.
@@ -138,7 +142,7 @@ public class ExperienceHandler {
         for (ArmorItem.Type type : ArmorItem.Type.values()) {
             Pair<ItemStack, EquipmentLevelingData> pair = armorItemData.get(type);
             if (pair != null && pair.getRight() != null) {
-                AddExperience(level, pair.getLeft(), experienceToAddToArmor);
+                AddExperience(player, level, pair.getLeft(), experienceToAddToArmor);
             }
         }
     }

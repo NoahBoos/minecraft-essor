@@ -4,6 +4,7 @@ import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.registry.EnchantmentRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
@@ -15,26 +16,26 @@ import java.util.stream.Collectors;
 import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
 
 public class ExperienceUtils {
-    public static void VerifyAndApplyExperience(Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey) {
+    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey) {
         for (Map.Entry<Class<?>, Map<String, Float>> entry : experienceRegistriesMap.entrySet()) {
             if (entry.getKey().isInstance(itemToExperience.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
                     Float experienceToAdd =  experienceRegistry.get(registryKey);
-                    AddExperience(level, itemToExperience, experienceToAdd);
+                    AddExperience(player, level, itemToExperience, experienceToAdd);
                 }
                 break;
             }
         }
     }
 
-    public static void VerifyAndApplyExperience(Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer experienceMultiplier) {
+    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer experienceMultiplier) {
         for (Map.Entry<Class<?>, Map<String, Float>> entry : experienceRegistriesMap.entrySet()) {
             if (entry.getKey().isInstance(itemToExperience.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
                     float experienceToAdd =  experienceRegistry.get(registryKey) * experienceMultiplier;
-                    AddExperience(level, itemToExperience, experienceToAdd);
+                    AddExperience(player, level, itemToExperience, experienceToAdd);
                 }
                 break;
             }

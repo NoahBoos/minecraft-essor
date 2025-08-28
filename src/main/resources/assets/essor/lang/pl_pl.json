@@ -1,3 +1,4 @@
 {
-  "tooltip.essor.level": "Poziom %1$s - %2$s / %3$s punkty doświadczenia"
+  "tooltip.essor.level": "Poziom %1$s - %2$s / %3$s PD",
+  "chat.essor.levelUpMessage": "\"%1$s\" awansował na poziom (Poziom %2$s)."
 }

@@ -96,8 +96,9 @@ public class EquipmentLevelingEvent {
 
     @SubscribeEvent
     public static void OnBlockBreak(BlockEvent.BreakEvent event) {
+        Player  player = event.getPlayer();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
-        ItemStack itemInHand = event.getPlayer().getMainHandItem();
+        ItemStack itemInHand = player.getMainHandItem();
         // Récupération du bloc que le joueur vient de casser.
         Block block = event.getState().getBlock();
 
@@ -105,11 +106,12 @@ public class EquipmentLevelingEvent {
         int totalDropCount = drops.stream().mapToInt(ItemStack::getCount).sum();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement onBlockBreak.
-        ExperienceHandler.OnBlockBreak(event.getPlayer().level(), itemInHand, block, totalDropCount);
+        ExperienceHandler.OnBlockBreak(player, player.level(), itemInHand, block, totalDropCount);
     }
 
     @SubscribeEvent
     public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        Player player = event.getEntity();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getItemStack();
         // Récupération de la position du bloc sur lequel le joueur vient de cliquer.
@@ -118,18 +120,19 @@ public class EquipmentLevelingEvent {
         Block block = event.getLevel().getBlockState(blockPosition).getBlock();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickBlock.
-        ExperienceHandler.OnRightClickBlock(event.getLevel(), itemInHand, block);
+        ExperienceHandler.OnRightClickBlock(player, event.getLevel(), itemInHand, block);
     }
 
     @SubscribeEvent
     public static void OnRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+        Player player = event.getEntity();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getItemStack();
         // Récupération de l'entité avec laquelle le joueur a intéragi.
         Entity entity = event.getTarget();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickEntity.
-        ExperienceHandler.OnRightClickEntity(event.getLevel(), itemInHand, entity);
+        ExperienceHandler.OnRightClickEntity(player, event.getLevel(), itemInHand, entity);
     }
 
     @SubscribeEvent
@@ -152,7 +155,7 @@ public class EquipmentLevelingEvent {
         ItemStack offHandItem = ((Player) killerEntity).getOffhandItem();
 
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
-        ExperienceHandler.OnEntityDeath(event.getEntity().level(), mainHandItem, offHandItem, deadEntity);
+        ExperienceHandler.OnEntityDeath((Player) killerEntity, event.getEntity().level(), mainHandItem, offHandItem, deadEntity);
     }
 
     @SubscribeEvent
@@ -167,12 +170,12 @@ public class EquipmentLevelingEvent {
         // Somme des dégâts encaissés par le joueur blessé.
         Float damageAmount = event.getAmount();
 
-        // Si l'entité blessée est un joueur, alors on récupère son armure qu'on entrepose dans l'objet itérable hurtArmor.
-        if (hurtEntity instanceof Player) {
-            hurtArmor = hurtEntity.getArmorSlots();
+        if(!(hurtEntity instanceof Player)) {
+            return;
         }
-
+        // Si l'entité blessée est un joueur, alors on récupère son armure qu'on entrepose dans l'objet itérable hurtArmor.
+        hurtArmor = hurtEntity.getArmorSlots();
         // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityHurt().
-        ExperienceHandler.OnEntityHurt(server.getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
+        ExperienceHandler.OnEntityHurt((Player) hurtEntity, server.getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
     }
 }
