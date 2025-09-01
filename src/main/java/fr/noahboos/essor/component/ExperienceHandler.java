@@ -75,7 +75,7 @@ public class ExperienceHandler {
         data.SetPrestige(data.GetPrestige() + 1);
         data.SetLevel(data.GetLevel() - data.GetRequiredLevelToPrestige());
         data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
-        data.SetRequiredLevelToPrestige(100 + (100 * data.GetPrestige()));
+        data.SetRequiredLevelToPrestige(25 + (25 * data.GetPrestige()));
     }
 
     public static void OnBlockBreak(Player player, Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
