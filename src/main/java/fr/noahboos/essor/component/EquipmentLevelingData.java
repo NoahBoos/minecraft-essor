@@ -11,7 +11,7 @@ public class EquipmentLevelingData {
     // Constructeur de la classe
     public EquipmentLevelingData() {
         this.prestige = 0;
-        this.requiredLevelToPrestige = 10;
+        this.requiredLevelToPrestige = 25;
         this.level = 0;
         this.experienceMultiplier = 1f;
         this.requiredExperienceToLevelUp = 100;

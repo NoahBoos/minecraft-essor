@@ -19,7 +19,7 @@ public class ModDataComponentTypes {
             RecordCodecBuilder.create(instance -> instance.group(
                     // Champs avec valeurs par défaut si absents (évite les resets)
                     Codec.INT.optionalFieldOf("prestige", 0).forGetter(EquipmentLevelingData::GetPrestige),
-                    Codec.INT.optionalFieldOf("requiredLevelToPrestige", 10).forGetter(EquipmentLevelingData::GetRequiredLevelToPrestige),
+                    Codec.INT.optionalFieldOf("requiredLevelToPrestige", 25).forGetter(EquipmentLevelingData::GetRequiredLevelToPrestige),
                     Codec.INT.optionalFieldOf("level", 0).forGetter(EquipmentLevelingData::GetLevel),
                     Codec.FLOAT.optionalFieldOf("experienceMultiplier", 1f).forGetter(EquipmentLevelingData::GetExperienceMultiplier),
 
