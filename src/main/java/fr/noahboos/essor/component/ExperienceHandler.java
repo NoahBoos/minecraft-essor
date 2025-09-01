@@ -28,7 +28,7 @@ public class ExperienceHandler {
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         if (data == null) return;
         // Code relatif au gain d'expérience.
-        data.SetCurrentExperience(data.GetCurrentExperience() + (experienceToAdd * data.GetExperienceMultiplier()));
+        data.SetCurrentExperience((float) Math.round((data.GetCurrentExperience() + (experienceToAdd * data.GetExperienceMultiplier())) * 1000f) / 1000f);
         while (data.GetCurrentExperience() >= data.GetRequiredExperienceToLevelUp()) {
             LevelUp(player, level, itemToExperience);
         }
