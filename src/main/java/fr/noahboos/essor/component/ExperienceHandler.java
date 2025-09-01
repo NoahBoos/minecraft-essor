@@ -65,6 +65,16 @@ public class ExperienceHandler {
         player.sendSystemMessage(Component.translatable("chat.essor.levelUpMessage", itemToLevelUp.getDisplayName(), data.GetLevel()));
     }
 
+    static void PrestigeUp(Player player, Level level, ItemStack itemToPrestige) {
+        EquipmentLevelingData data = itemToPrestige.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
+
+        data.SetPrestige(data.GetPrestige() + 1);
+        data.SetLevel(data.GetLevel() - data.GetRequiredLevelToPrestige());
+        data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
+        data.SetRequiredLevelToPrestige(100 + (100 * data.GetPrestige()));
+    }
+
     public static void OnBlockBreak(Player player, Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {
         // Identifiant complet du bloc que le joueur a cassé.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
