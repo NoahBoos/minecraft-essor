@@ -28,11 +28,11 @@ public class ExperienceHandler {
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         if (data == null) return;
         // Code relatif au gain d'expérience.
-        data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
+        data.SetCurrentExperience(data.GetCurrentExperience() + (experienceToAdd * data.GetExperienceMultiplier()));
         while (data.GetCurrentExperience() >= data.GetRequiredExperienceToLevelUp()) {
             LevelUp(player, level, itemToExperience);
         }
-        while (data.GetPrestige() >= data.GetRequiredLevelToPrestige() && data.GetPrestige() < 10) {
+        while (data.GetLevel() >= data.GetRequiredLevelToPrestige() && data.GetPrestige() < 10) {
             PrestigeUp(player, level, itemToExperience);
         }
     }
@@ -74,8 +74,11 @@ public class ExperienceHandler {
 
         data.SetPrestige(data.GetPrestige() + 1);
         data.SetLevel(data.GetLevel() - data.GetRequiredLevelToPrestige());
+        data.SetExperienceMultiplier(data.GetExperienceMultiplier() + 0.1f);
         data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
         data.SetRequiredLevelToPrestige(25 + (25 * data.GetPrestige()));
+
+        player.sendSystemMessage(Component.translatable("chat.essor.prestigeMessage", itemToPrestige.getDisplayName(), data.GetPrestige()));
     }
 
     public static void OnBlockBreak(Player player, Level level, ItemStack itemInHand, Block block, Integer totalDropCount) {

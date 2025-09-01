@@ -21,6 +21,7 @@ public class ModDataComponentTypes {
                     Codec.INT.optionalFieldOf("prestige", 0).forGetter(EquipmentLevelingData::GetPrestige),
                     Codec.INT.optionalFieldOf("requiredLevelToPrestige", 10).forGetter(EquipmentLevelingData::GetRequiredLevelToPrestige),
                     Codec.INT.optionalFieldOf("level", 0).forGetter(EquipmentLevelingData::GetLevel),
+                    Codec.FLOAT.optionalFieldOf("experienceMultiplier", 1f).forGetter(EquipmentLevelingData::GetExperienceMultiplier),
 
                     // ---- Migration ancien -> nouveau ----
                     // On LIT le nouveau champ s'il existe…
@@ -32,10 +33,10 @@ public class ModDataComponentTypes {
                     // -------------------------------------
 
                     Codec.FLOAT.optionalFieldOf("currentExperience", 0f).forGetter(EquipmentLevelingData::GetCurrentExperience)
-            ).apply(instance, (prestige, reqLvlToPrestige, level, reqExpNewOpt, reqExpOldOpt, currentExp) -> {
+            ).apply(instance, (prestige, reqLvlToPrestige, level, expMultiplier, reqExpNewOpt, reqExpOldOpt, currentExp) -> {
                 // Java 17+: Optional#or
                 int reqExp = reqExpNewOpt.or(() -> reqExpOldOpt).orElse(100);
-                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, reqExp, currentExp);
+                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, expMultiplier, reqExp, currentExp);
             }));
 
     // Déclaration du composant de données entreposant les données relatives au leveling d'une pièce d'équipement.

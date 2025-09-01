@@ -4,6 +4,7 @@ public class EquipmentLevelingData {
     private int prestige;
     private int requiredLevelToPrestige;
     private int level;
+    private float experienceMultiplier;
     private int requiredExperienceToLevelUp;
     private float currentExperience;
 
@@ -12,14 +13,16 @@ public class EquipmentLevelingData {
         this.prestige = 0;
         this.requiredLevelToPrestige = 10;
         this.level = 0;
+        this.experienceMultiplier = 1f;
         this.requiredExperienceToLevelUp = 100;
         this.currentExperience = 0f;
     }
 
-    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, int requiredExperienceToLevelUp, float currentExperience) {
+    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, float experienceMultiplier, int requiredExperienceToLevelUp, float currentExperience) {
         this.prestige = prestige;
         this.requiredLevelToPrestige = requiredLevelToPrestige;
         this.level = level;
+        this.experienceMultiplier = experienceMultiplier;
         this.requiredExperienceToLevelUp = requiredExperienceToLevelUp;
         this.currentExperience = currentExperience;
     }
@@ -46,6 +49,14 @@ public class EquipmentLevelingData {
     }
     public void SetLevel(int level) {
         this.level = level;
+    }
+
+    // Getter et setter d'experienceMultiplier.
+    public float GetExperienceMultiplier() {
+        return this.experienceMultiplier;
+    }
+    public void SetExperienceMultiplier(float experienceMultiplier) {
+        this.experienceMultiplier = experienceMultiplier;
     }
 
     // Getter et setter de levelExperienceThreshold.

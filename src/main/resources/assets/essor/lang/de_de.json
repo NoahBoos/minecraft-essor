@@ -1,5 +1,7 @@
 {
   "tooltip.essor.prestige": "Prestige %1$s - ",
+  "tooltip.essor.experienceMultiplier": "EP multiplikator - x%1$s",
   "tooltip.essor.level": "Stufe %1$s - %2$s / %3$s EP",
-  "chat.essor.levelUpMessage": "\"%1$s\" hat ein Level erreicht (Level %2$s)."
+  "chat.essor.levelUpMessage": "\"%1$s\" hat ein Level erreicht (Level %2$s).",
+  "chat.essor.prestigeMessage": "\"%1$s\" hat ein Prestige Level erreicht (Level %2$s)."
 }

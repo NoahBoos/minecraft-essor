@@ -1,5 +1,7 @@
 {
   "tooltip.essor.prestige": "Prestige %1$s - ",
+  "tooltip.essor.experienceMultiplier": "XP multiplier - x%1$s",
   "tooltip.essor.level": "Level %1$s - %2$s / %3$s XP",
-  "chat.essor.levelUpMessage": "\"%1$s\" gain a level (Level %2$s)."
+  "chat.essor.levelUpMessage": "\"%1$s\" gain a level (Level %2$s).",
+  "chat.essor.prestigeMessage": "\"%1$s\" gain a prestige level (Level %2$s)."
 }
