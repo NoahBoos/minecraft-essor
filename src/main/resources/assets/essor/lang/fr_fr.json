@@ -1,4 +1,5 @@
 {
+  "tooltip.essor.prestige": "Prestige %1$s - ",
   "tooltip.essor.level": "Niveau %1$s - %2$s / %3$s PE",
   "chat.essor.levelUpMessage": "\"%1$s\" a gagné un niveau (Niveau %2$s)."
 }

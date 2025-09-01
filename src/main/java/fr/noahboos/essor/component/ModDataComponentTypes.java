@@ -8,17 +8,35 @@ import net.minecraft.core.registries.Registries;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Optional;
+
 public class ModDataComponentTypes {
     // Registre différé permettant l'enregistrement des différents composants de données.
     public static final DeferredRegister<DataComponentType<?>> DR_DATA_COMPONENT_TYPES =
             DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Essor.MOD_ID);
 
-    // Codec personnalisé permettant la (dé)sérialisation d'un objet de type EquipmentLevelingData.
-    public static final Codec<EquipmentLevelingData> C_EQUIPMENT_LEVELING_DATA = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("level").forGetter(EquipmentLevelingData::GetLevel),
-            Codec.INT.fieldOf("levelExperienceThreshold").forGetter(EquipmentLevelingData::GetLevelExperienceThreshold),
-            Codec.FLOAT.fieldOf("currentExperience").forGetter(EquipmentLevelingData::GetCurrentExperience)
-    ).apply(instance, EquipmentLevelingData::new));
+    public static final Codec<EquipmentLevelingData> C_EQUIPMENT_LEVELING_DATA =
+            RecordCodecBuilder.create(instance -> instance.group(
+                    // Champs avec valeurs par défaut si absents (évite les resets)
+                    Codec.INT.optionalFieldOf("prestige", 0).forGetter(EquipmentLevelingData::GetPrestige),
+                    Codec.INT.optionalFieldOf("requiredLevelToPrestige", 10).forGetter(EquipmentLevelingData::GetRequiredLevelToPrestige),
+                    Codec.INT.optionalFieldOf("level", 0).forGetter(EquipmentLevelingData::GetLevel),
+
+                    // ---- Migration ancien -> nouveau ----
+                    // On LIT le nouveau champ s'il existe…
+                    Codec.INT.optionalFieldOf("requiredExperienceToLevelUp")
+                            .forGetter(d -> Optional.of(d.GetRequiredExperienceToLevelUp())),
+                    // …et on LIT l’ancien champ si présent (lecture seule)
+                    Codec.INT.optionalFieldOf("levelExperienceThreshold")
+                            .forGetter(d -> Optional.empty()),
+                    // -------------------------------------
+
+                    Codec.FLOAT.optionalFieldOf("currentExperience", 0f).forGetter(EquipmentLevelingData::GetCurrentExperience)
+            ).apply(instance, (prestige, reqLvlToPrestige, level, reqExpNewOpt, reqExpOldOpt, currentExp) -> {
+                // Java 17+: Optional#or
+                int reqExp = reqExpNewOpt.or(() -> reqExpOldOpt).orElse(100);
+                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, reqExp, currentExp);
+            }));
 
     // Déclaration du composant de données entreposant les données relatives au leveling d'une pièce d'équipement.
     public static final DataComponentType<EquipmentLevelingData> DC_EQUIPMENT_LEVELING_DATA =

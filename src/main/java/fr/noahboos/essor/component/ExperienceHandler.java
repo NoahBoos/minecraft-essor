@@ -29,7 +29,7 @@ public class ExperienceHandler {
         if (data == null) return;
         // Code relatif au gain d'expérience.
         data.SetCurrentExperience(data.GetCurrentExperience() + experienceToAdd);
-        while (data.GetCurrentExperience() >= data.GetLevelExperienceThreshold()) {
+        while (data.GetCurrentExperience() >= data.GetRequiredExperienceToLevelUp()) {
             LevelUp(player, level, itemToExperience);
         }
     }
@@ -40,8 +40,8 @@ public class ExperienceHandler {
         if (data == null) return;
         // Incrémente le niveau et ajuste les points d'expériences et le seuil d'expérience en conséquence.
         data.SetLevel(data.GetLevel() + 1);
-        data.SetCurrentExperience(data.GetCurrentExperience() - data.GetLevelExperienceThreshold());
-        data.SetLevelExperienceThreshold(100 + (100 * data.GetLevel()));
+        data.SetCurrentExperience(data.GetCurrentExperience() - data.GetRequiredExperienceToLevelUp());
+        data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
         // Répare complètement l'item en réinitialisant la quantité de durabilité manquante.
         itemToLevelUp.setDamageValue(0);
         // Map contenant la table de récompenses suivant le format Map<Niveau, Map<ID_Enchantement, Niveau_Enchantement>>.
@@ -70,11 +70,11 @@ public class ExperienceHandler {
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-            AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
-            HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
-            PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
-            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE,
-            ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
+                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
+                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
+                PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
+                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE,
+                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
         ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, blockId, totalDropCount);
@@ -85,10 +85,10 @@ public class ExperienceHandler {
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-            AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
-            HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
-            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
-            ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
+                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
+                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
+                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
+                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
         ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, blockId);
@@ -99,7 +99,7 @@ public class ExperienceHandler {
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-            ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
+                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
         ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, itemInHand, entityId);
@@ -110,12 +110,12 @@ public class ExperienceHandler {
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
         // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
         Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-            BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
-            CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
-            MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
-            SwordItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE,
-            TridentItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE,
-            ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
+                BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
+                CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
+                MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
+                SwordItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE,
+                TridentItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE,
+                ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
         );
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
         ExperienceUtils.VerifyAndApplyExperience(player, level, experienceRegistriesMap, mainHandItem, entityId);

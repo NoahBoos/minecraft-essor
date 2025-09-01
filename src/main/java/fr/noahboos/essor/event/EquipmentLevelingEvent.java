@@ -83,14 +83,21 @@ public class EquipmentLevelingEvent {
         if (hoveredItem.has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
             EquipmentLevelingData hoveredItemData = hoveredItem.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
             if (hoveredItemData == null) return;
-            tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetLevelExperienceThreshold()));
 
-            StringBuilder progressBar = new StringBuilder();
-            int segments = 25;
-            int filledSegments = (int) (((float) hoveredItemData.GetCurrentExperience() / (float) hoveredItemData.GetLevelExperienceThreshold()) * segments);
-            progressBar.append("§a■".repeat(Math.max(0, filledSegments)));
-            progressBar.append("§7□".repeat(Math.max(0, segments - filledSegments)));
-            tooltip.add(Component.literal(progressBar.toString()));
+            StringBuilder prestigeProgressBar = new StringBuilder();
+            int prestigeSegments = 5;
+            int prestigeFilledSegments = (int) (((int) hoveredItemData.GetPrestige() / (float) hoveredItemData.GetRequiredLevelToPrestige()) * prestigeSegments);
+            prestigeProgressBar.append("§a☆".repeat(Math.max(0, prestigeFilledSegments)));
+            prestigeProgressBar.append("§7★".repeat(Math.max(0, prestigeSegments - prestigeFilledSegments)));
+            tooltip.add(Component.literal(Component.translatable("tooltip.essor.prestige", hoveredItemData.GetPrestige()).getString() + prestigeProgressBar.toString()));
+
+            tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetRequiredExperienceToLevelUp()));
+            StringBuilder levelProgressBar = new StringBuilder();
+            int levelSegments = 25;
+            int levelFilledSegments = (int) (((float) hoveredItemData.GetCurrentExperience() / (float) hoveredItemData.GetRequiredExperienceToLevelUp()) * levelSegments);
+            levelProgressBar.append("§a■".repeat(Math.max(0, levelFilledSegments)));
+            levelProgressBar.append("§7□".repeat(Math.max(0, levelSegments - levelFilledSegments)));
+            tooltip.add(Component.literal(levelProgressBar.toString()));
         }
     }
 
