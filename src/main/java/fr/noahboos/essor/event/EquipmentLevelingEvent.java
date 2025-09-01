@@ -85,7 +85,7 @@ public class EquipmentLevelingEvent {
             if (hoveredItemData == null) return;
 
             StringBuilder prestigeProgressBar = new StringBuilder();
-            int prestigeSegments = 5;
+            int prestigeSegments = 10;
             int prestigeFilledSegments = (int) (((int) hoveredItemData.GetPrestige() / (float) hoveredItemData.GetRequiredLevelToPrestige()) * prestigeSegments);
             prestigeProgressBar.append("§a☆".repeat(Math.max(0, prestigeFilledSegments)));
             prestigeProgressBar.append("§7★".repeat(Math.max(0, prestigeSegments - prestigeFilledSegments)));

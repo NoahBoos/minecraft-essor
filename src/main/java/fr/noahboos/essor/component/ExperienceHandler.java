@@ -32,6 +32,9 @@ public class ExperienceHandler {
         while (data.GetCurrentExperience() >= data.GetRequiredExperienceToLevelUp()) {
             LevelUp(player, level, itemToExperience);
         }
+        while (data.GetPrestige() >= data.GetRequiredLevelToPrestige() && data.GetPrestige() < 10) {
+            PrestigeUp(player, level, itemToExperience);
+        }
     }
 
     static void LevelUp(Player player, Level level, ItemStack itemToLevelUp) {
