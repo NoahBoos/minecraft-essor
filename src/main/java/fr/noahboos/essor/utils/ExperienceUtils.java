@@ -57,10 +57,11 @@ public class ExperienceUtils {
         // Cherche si itemToEnchant possède déjà un des enchantements du jeu de récompenses possibles.
         for (Map.Entry<Holder<Enchantment>, Integer> entry : rewardEnchantments.entrySet()) {
             Holder<Enchantment> enchantment = entry.getKey();
-            // Si une correspondance est repérée, alors on améliore l'enchantement d'un niveau.
+            // Si une correspondance est repérée, alors on améliore l'enchantement d'un niveau, à condition que l'amélioration ne soit pas encore obtenu.
             if (itemToEnchant.getEnchantments().keySet().contains(enchantment)) {
-                int newLevel = itemToEnchant.getEnchantments().getLevel(enchantment) + 1;
-                itemToEnchant.enchant(enchantment, newLevel);
+                if (itemToEnchant.getEnchantments().getLevel(enchantment) < entry.getValue()) {
+                    itemToEnchant.enchant(enchantment, entry.getValue());
+                }
                 return;
             }
         }
