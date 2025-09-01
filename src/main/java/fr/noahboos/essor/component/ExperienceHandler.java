@@ -74,7 +74,7 @@ public class ExperienceHandler {
 
         data.SetPrestige(data.GetPrestige() + 1);
         data.SetLevel(data.GetLevel() - data.GetRequiredLevelToPrestige());
-        data.SetExperienceMultiplier(data.GetExperienceMultiplier() + 0.1f);
+        data.SetExperienceMultiplier((float) Math.round((data.GetExperienceMultiplier() + 0.1f) * 100f) / 100f);
         data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
         data.SetRequiredLevelToPrestige(25 + (25 * data.GetPrestige()));
 
