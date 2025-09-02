@@ -1,6 +1,11 @@
 package fr.noahboos.essor.event;
 
+import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
+import fr.noahboos.essor.component.ModDataComponentTypes;
+import fr.noahboos.essor.registry.ExperienceDataRegistry;
+import fr.noahboos.essor.utils.ExperienceUtils;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +18,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
 
 @Mod.EventBusSubscriber
 public class EntityEvent {
@@ -24,8 +35,14 @@ public class EntityEvent {
         // Récupération de l'entité avec laquelle le joueur a intéragi.
         Entity entity = event.getTarget();
 
-        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnRightClickEntity.
-        ExperienceHandler.OnRightClickEntity(player, event.getLevel(), itemInHand, entity);
+        // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
+                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
+        );
+        // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
+        ExperienceUtils.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, entityId);
     }
 
     @SubscribeEvent
@@ -47,8 +64,22 @@ public class EntityEvent {
         // Récupération de l'item que le joueur a dans sa main secondaire au moment où il tue l'entité.
         ItemStack offHandItem = ((Player) killerEntity).getOffhandItem();
 
-        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityDeath().
-        ExperienceHandler.OnEntityDeath((Player) killerEntity, event.getEntity().level(), mainHandItem, offHandItem, deadEntity);
+
+        // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
+        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
+        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
+                BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
+                CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
+                MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
+                SwordItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE,
+                TridentItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE,
+                ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
+        );
+        // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
+        ExperienceUtils.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, mainHandItem, entityId);
+        // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
+        ExperienceUtils.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, offHandItem, entityId);
     }
 
     @SubscribeEvent
@@ -68,7 +99,25 @@ public class EntityEvent {
         }
         // Si l'entité blessée est un joueur, alors on récupère son armure qu'on entrepose dans l'objet itérable hurtArmor.
         hurtArmor = hurtEntity.getArmorSlots();
-        // Déclenchement de la méthode du gestionnaire d'expérience en lien avec l'événement OnEntityHurt().
-        ExperienceHandler.OnEntityHurt((Player) hurtEntity, server.getLevel(Level.OVERWORLD), damageAmount, hurtArmor);
+
+        // Déclaration d'une map au format <ArmorItem.Type, Pair<ItemStack, EquipmentLevelingData>> pour simplifier le code et éviter un switch dans le jeu de condition suivant.
+        EnumMap<ArmorItem.Type, Pair<ItemStack, EquipmentLevelingData>> armorItemData = new  EnumMap<>(ArmorItem.Type.class);
+        // Si le joueur portait une armure, alors extrait les composants de données de chaque pièce en les injectant dans la map déclaré en haut.
+        for (ItemStack item : hurtArmor) {
+            if (item.getItem() instanceof ArmorItem armorItem) {
+                armorItemData.put(armorItem.getType(), Pair.of(item, item.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)));
+            }
+        }
+
+        // Somme des points d'expériences à ajouter à l'armure.
+        float experienceToAddToArmor = (float) (damageAmount * 3.75);
+
+        // Itération directe sur les types d’armure
+        for (ArmorItem.Type type : ArmorItem.Type.values()) {
+            Pair<ItemStack, EquipmentLevelingData> pair = armorItemData.get(type);
+            if (pair != null && pair.getRight() != null) {
+                AddExperience((Player) hurtEntity, server.getLevel(Level.OVERWORLD), pair.getLeft(), experienceToAddToArmor);
+            }
+        }
     }
 }

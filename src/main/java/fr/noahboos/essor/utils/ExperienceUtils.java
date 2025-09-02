@@ -29,12 +29,12 @@ public class ExperienceUtils {
         }
     }
 
-    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer experienceMultiplier) {
+    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer totalDropCount) {
         for (Map.Entry<Class<?>, Map<String, Float>> entry : experienceRegistriesMap.entrySet()) {
             if (entry.getKey().isInstance(itemToExperience.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
-                    float experienceToAdd =  experienceRegistry.get(registryKey) * experienceMultiplier;
+                    float experienceToAdd =  experienceRegistry.get(registryKey) * totalDropCount;
                     AddExperience(player, level, itemToExperience, experienceToAdd);
                 }
                 break;
