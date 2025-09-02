@@ -1,6 +1,6 @@
 package fr.noahboos.essor.component;
 
-import fr.noahboos.essor.registry.EnchantmentRewardDataRegistry;
+import fr.noahboos.essor.registry.EnchantmentRewardRegistry;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
 import fr.noahboos.essor.utils.ExperienceUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -51,11 +51,11 @@ public class ExperienceHandler {
         Map<Integer, Map<String, Integer>> rewardsTable = null;
         // Batterie if/else permettant de réaffecter rewardsTable.
         if (itemToLevelUp.getItem() instanceof ArmorItem) {
-            rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(((ArmorItem) itemToLevelUp.getItem()).getType());
+            rewardsTable = EnchantmentRewardRegistry.ENCHANTMENT_REWARD_DATA_ARMOR.get(((ArmorItem) itemToLevelUp.getItem()).getType());
         } else {
             for (Class<?> type : UPGRADABLE_ITEM_CLASSES) {
                 if (itemToLevelUp.getItem().getClass().equals(type)) {
-                    rewardsTable = EnchantmentRewardDataRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
+                    rewardsTable = EnchantmentRewardRegistry.ENCHANTMENT_REWARD_DATA_ITEMS.get(type);
                     break;
                 }
             }
