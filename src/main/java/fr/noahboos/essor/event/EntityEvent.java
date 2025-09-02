@@ -9,6 +9,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.MushroomCow;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
@@ -28,20 +31,42 @@ import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
 public class EntityEvent {
     @SubscribeEvent
     public static void OnRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+        if (event.getLevel().isClientSide) return;
+        boolean canGainExperience = false;
+        // Récupération du joueur
         Player player = event.getEntity();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getItemStack();
         // Récupération de l'entité avec laquelle le joueur a intéragi.
         Entity entity = event.getTarget();
-
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
-        // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
+
+        if (entityId.equals("minecraft:sheep")) {
+            if (entity instanceof Sheep sheep ) {
+                if (!sheep.isBaby() && sheep.readyForShearing()) {
+                    canGainExperience = true;
+                }
+            }
+        } else if (entityId.equals("minecraft:mooshroom")) {
+            if (entity instanceof MushroomCow mushroomCow) {
+                if (!mushroomCow.isBaby() && mushroomCow.readyForShearing()) {
+                    canGainExperience = true;
+                }
+            }
+        }
+
+        if (canGainExperience) {
+            // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
+            ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
+            canGainExperience = false;
+            System.out.println("You gained experience.");
+        }
     }
 
     @SubscribeEvent
     public static void OnEntityDeath(LivingDeathEvent event) {
+        if (event.getEntity().level().isClientSide) return;
         // Récupération de l'entité tuée.
         LivingEntity deadEntity = event.getEntity();
         // Récupération de la source des dégâts.
@@ -70,6 +95,7 @@ public class EntityEvent {
 
     @SubscribeEvent
     public static void OnEntityHurt(LivingHurtEvent event) {
+        if (event.getEntity().level().isClientSide) return;
         // Récupération du serveur.
         MinecraftServer server = event.getEntity().getServer();
         if (server == null) return;
