@@ -6,7 +6,6 @@ import fr.noahboos.essor.utils.InventoryUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -30,6 +29,7 @@ public class ExperienceHandler {
         while (data.GetLevel() >= data.GetRequiredLevelToPrestige() && data.GetPrestige() < 10) {
             PrestigeUp(player, level, itemToExperience);
         }
+        ActionBar.DisplayXPCount((ServerPlayer) player, itemToExperience);
         InventoryUtils.InventorySync((ServerPlayer) player);
     }
 

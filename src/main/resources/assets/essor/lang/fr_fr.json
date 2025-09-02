@@ -3,5 +3,6 @@
   "tooltip.essor.experienceMultiplier": "Multiplicateur de PE - x%1$s",
   "tooltip.essor.level": "Niveau %1$s - %2$s / %3$s PE",
   "chat.essor.levelUpMessage": "\"%1$s\" a gagné un niveau (Niveau %2$s).",
-  "chat.essor.prestigeMessage": "\"%1$s\" a gagné un niveau de prestige (Niveau %2$s)."
+  "chat.essor.prestigeMessage": "\"%1$s\" a gagné un niveau de prestige (Niveau %2$s).",
+  "translation.level": "Niveau"
 }
