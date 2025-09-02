@@ -4,7 +4,6 @@ import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
-import fr.noahboos.essor.utils.ExperienceUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,7 +41,7 @@ public class EntityEvent {
                 ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-        ExperienceUtils.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, entityId);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, entityId);
     }
 
     @SubscribeEvent
@@ -77,9 +76,9 @@ public class EntityEvent {
                 ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
         );
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceUtils.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, mainHandItem, entityId);
+        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, mainHandItem, entityId);
         // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceUtils.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, offHandItem, entityId);
+        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, offHandItem, entityId);
     }
 
     @SubscribeEvent

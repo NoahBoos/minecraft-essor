@@ -2,7 +2,6 @@ package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.registry.ExperienceDataRegistry;
-import fr.noahboos.essor.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
@@ -41,7 +40,7 @@ public class BlockEvents {
                 ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        ExperienceUtils.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId, totalDropCount);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId, totalDropCount);
     }
 
     @SubscribeEvent
@@ -64,6 +63,6 @@ public class BlockEvents {
                 ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
         );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        ExperienceUtils.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId);
     }
 }
