@@ -4,5 +4,6 @@
   "tooltip.essor.level": "Poziom %1$s - %2$s / %3$s PD",
   "chat.essor.levelUpMessage": "\"%1$s\" awansował na poziom (Poziom %2$s).",
   "chat.essor.prestigeMessage": "\"%1$s\" awansował na poziom prestiżu (Poziom %2$s).",
-  "translation.level": "Poziom"
+  "translation.level": "Poziom",
+  "translation.experiencePoint": "PD"
 }
