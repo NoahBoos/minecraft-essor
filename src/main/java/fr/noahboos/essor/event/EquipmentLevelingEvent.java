@@ -89,10 +89,10 @@ public class EquipmentLevelingEvent {
             int prestigeFilledSegments = hoveredItemData.GetPrestige();
             prestigeProgressBar.append("§a★".repeat(Math.max(0, prestigeFilledSegments)));
             prestigeProgressBar.append("§7☆".repeat(Math.max(0, prestigeSegments - prestigeFilledSegments)));
+            tooltip.add(Component.empty());
             tooltip.add(Component.literal(Component.translatable("tooltip.essor.prestige", hoveredItemData.GetPrestige()).getString() + prestigeProgressBar.toString()));
-
             tooltip.add(Component.translatable("tooltip.essor.experienceMultiplier", hoveredItemData.GetExperienceMultiplier()));
-
+            tooltip.add(Component.empty());
             tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetRequiredExperienceToLevelUp()));
             StringBuilder levelProgressBar = new StringBuilder();
             int levelSegments = 25;
