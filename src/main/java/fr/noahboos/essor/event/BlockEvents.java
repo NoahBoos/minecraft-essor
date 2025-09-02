@@ -1,7 +1,7 @@
 package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.ExperienceHandler;
-import fr.noahboos.essor.registry.ExperienceDataRegistry;
+import fr.noahboos.essor.utils.Constants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +14,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
-import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class BlockEvents {
@@ -31,16 +30,8 @@ public class BlockEvents {
 
         // Identifiant complet du bloc que le joueur a cassé.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
-        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_BREAKABLE,
-                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_BREAKABLE,
-                PickaxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_PICKAXE_BREAKABLE,
-                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_BREAKABLE,
-                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_BREAKABLE
-        );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId, totalDropCount);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_PRIMARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId, totalDropCount);
     }
 
     @SubscribeEvent
@@ -55,14 +46,7 @@ public class BlockEvents {
 
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
-        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-                AxeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_AXE_STRIPPABLE,
-                HoeItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_HOE_TILLABLE,
-                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_CUTTABLE,
-                ShovelItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHOVEL_DIGGABLE
-        );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, blockId);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_SECONDARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId);
     }
 }

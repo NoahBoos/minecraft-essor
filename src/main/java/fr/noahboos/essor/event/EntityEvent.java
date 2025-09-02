@@ -3,7 +3,7 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ExperienceHandler;
 import fr.noahboos.essor.component.ModDataComponentTypes;
-import fr.noahboos.essor.registry.ExperienceDataRegistry;
+import fr.noahboos.essor.utils.Constants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -36,12 +36,8 @@ public class EntityEvent {
 
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
-        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-                ShearsItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHEAR_SHEARABLE
-        );
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), experienceRegistriesMap, itemInHand, entityId);
+        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
     }
 
     @SubscribeEvent
@@ -66,19 +62,10 @@ public class EntityEvent {
 
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
-        // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.
-        Map<Class<?>, Map<String, Float>> experienceRegistriesMap = Map.of(
-                BowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_BOW_KILLABLE,
-                CrossbowItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_CROSSBOW_KILLABLE,
-                MaceItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_MACE_KILLABLE,
-                SwordItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SWORD_KILLABLE,
-                TridentItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_TRIDENT_KILLABLE,
-                ShieldItem.class, ExperienceDataRegistry.EXPERIENCE_DATA_SHIELD_KILLABLE
-        );
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, mainHandItem, entityId);
+        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, mainHandItem, entityId);
         // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), experienceRegistriesMap, offHandItem, entityId);
+        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, offHandItem, entityId);
     }
 
     @SubscribeEvent
