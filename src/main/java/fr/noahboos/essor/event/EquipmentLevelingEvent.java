@@ -87,7 +87,7 @@ public class EquipmentLevelingEvent {
             StringBuilder prestigeProgressBar = new StringBuilder();
             int prestigeSegments = 10;
             int prestigeFilledSegments = hoveredItemData.GetPrestige();
-            prestigeProgressBar.append("§a★".repeat(Math.max(0, prestigeFilledSegments)));
+            prestigeProgressBar.append("§6★".repeat(Math.max(0, prestigeFilledSegments)));
             prestigeProgressBar.append("§7☆".repeat(Math.max(0, prestigeSegments - prestigeFilledSegments)));
             tooltip.add(Component.empty());
             tooltip.add(Component.literal(Component.translatable("tooltip.essor.prestige", hoveredItemData.GetPrestige()).getString() + prestigeProgressBar.toString()));
