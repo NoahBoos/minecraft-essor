@@ -19,6 +19,7 @@ import java.util.List;
 public class BlockEvents {
     @SubscribeEvent
     public static void OnBlockBreak(BlockEvent.BreakEvent event) {
+        if (event.getLevel().isClientSide()) return;
         Player player = event.getPlayer();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = player.getMainHandItem();
@@ -36,6 +37,7 @@ public class BlockEvents {
 
     @SubscribeEvent
     public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getLevel().isClientSide()) return;
         Player player = event.getEntity();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getItemStack();

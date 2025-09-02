@@ -31,7 +31,7 @@ import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
 public class EntityEvent {
     @SubscribeEvent
     public static void OnRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-        if (event.getLevel().isClientSide) return;
+        if (event.getLevel().isClientSide()) return;
         boolean canGainExperience = false;
         // Récupération du joueur
         Player player = event.getEntity();
@@ -66,7 +66,7 @@ public class EntityEvent {
 
     @SubscribeEvent
     public static void OnEntityDeath(LivingDeathEvent event) {
-        if (event.getEntity().level().isClientSide) return;
+        if (event.getEntity().level().isClientSide()) return;
         // Récupération de l'entité tuée.
         LivingEntity deadEntity = event.getEntity();
         // Récupération de la source des dégâts.
@@ -95,7 +95,7 @@ public class EntityEvent {
 
     @SubscribeEvent
     public static void OnEntityHurt(LivingHurtEvent event) {
-        if (event.getEntity().level().isClientSide) return;
+        if (event.getEntity().level().isClientSide()) return;
         // Récupération du serveur.
         MinecraftServer server = event.getEntity().getServer();
         if (server == null) return;

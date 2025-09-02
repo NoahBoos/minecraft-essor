@@ -2,8 +2,11 @@ package fr.noahboos.essor.component;
 
 import fr.noahboos.essor.registry.EnchantmentRegistry;
 import fr.noahboos.essor.registry.EnchantmentRewardRegistry;
+import fr.noahboos.essor.utils.InventoryUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -27,6 +30,7 @@ public class ExperienceHandler {
         while (data.GetLevel() >= data.GetRequiredLevelToPrestige() && data.GetPrestige() < 10) {
             PrestigeUp(player, level, itemToExperience);
         }
+        InventoryUtils.InventorySync((ServerPlayer) player);
     }
 
     static void LevelUp(Player player, Level level, ItemStack itemToLevelUp) {
