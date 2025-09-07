@@ -4,10 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.noahboos.essor.loader.JsonLoader;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Challenge {
     public String id;
@@ -87,7 +84,11 @@ public class Challenge {
 
     public static final Codec<Challenge> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(challenge -> challenge.id),
-            Codec.unboundedMap(Codec.INT, Codec.INT).fieldOf("tiers").forGetter(challenge -> challenge.tiers),
+            Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("tiers").forGetter(challenge -> {
+                Map<String, Integer> tiersMap = new HashMap<String, Integer>();
+                challenge.tiers.forEach((key, value) -> tiersMap.put(String.valueOf(key), value));
+                return tiersMap;
+            }),
             Codec.INT.fieldOf("maximumTier").forGetter(c -> c.maximumTier),
             Codec.INT.fieldOf("currentTier").forGetter(c -> c.currentTier),
             Codec.INT.fieldOf("progression").forGetter(c -> c.progression),
@@ -97,7 +98,9 @@ public class Challenge {
     ).apply(instance, (id, tiers, maxTier, curTier, prog, targets, completed) -> {
         Challenge challenge = new Challenge();
         challenge.id = id;
-        challenge.tiers = tiers;
+        Map <Integer, Integer> tiersMap = new HashMap<Integer, Integer>();
+        tiers.forEach((key, value) -> {tiersMap.put(Integer.valueOf(key), value);});
+        challenge.tiers = tiersMap;
         challenge.maximumTier = maxTier;
         challenge.currentTier = curTier;
         challenge.progression = prog;
