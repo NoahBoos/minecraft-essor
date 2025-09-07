@@ -42,7 +42,7 @@ public class JsonLoader {
     }
 
     public static Challenge LoadChallenge(String file) {
-        String path = "data/essor/challenge/" + file;
+        String path = "data/essor/challenge/" + file + ".json";
 
         try (InputStream stream = JsonLoader.class.getClassLoader().getResourceAsStream(path)) {
             if (stream == null) {
