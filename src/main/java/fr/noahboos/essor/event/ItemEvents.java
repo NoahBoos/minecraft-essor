@@ -2,6 +2,7 @@ package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import fr.noahboos.essor.component.challenge.ChallengesFactory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.List;
 
 import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES;
+import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR;
 
 @Mod.EventBusSubscriber
 public class ItemEvents {
@@ -29,12 +31,16 @@ public class ItemEvents {
         // Si l'item ne possède pas le composant de données "DC_EQUIPMENT_LEVELING_DATA", on le lui ajoute.
         if (!craftedItem.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
             craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+            ChallengesFactory.AssignChallenges(craftedItem);
         }
 
         // Parcourt l'inventaire du joueur et assigne à chaque pièce d'équipement améliorable ne le possédant pas le conteneur de données "DC_EQUIPMENT_LEVELING_DATA".
         for (ItemStack itemInInventory : event.getEntity().getInventory().items) {
             if (UPGRADABLE_ITEM_CLASSES.contains(itemInInventory.getItem().getClass()) && !itemInInventory.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
                 itemInInventory.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+                if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(itemInInventory.getItem().getClass())) {
+                    ChallengesFactory.AssignChallenges(itemInInventory);
+                }
             }
         }
     }
@@ -47,6 +53,9 @@ public class ItemEvents {
         // Si l'item est une pièce d'équipement améliorable et qu'il ne possède pas le composant de données "DC_EQUIPMENT_LEVELING_DATA", on le lui ajoute.
         if (UPGRADABLE_ITEM_CLASSES.contains(pickedUpItem.getItem().getClass()) && !pickedUpItem.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
             pickedUpItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+            if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(pickedUpItem.getItem().getClass())) {
+                ChallengesFactory.AssignChallenges(pickedUpItem);
+            }
         }
     }
 

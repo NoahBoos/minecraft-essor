@@ -1,7 +1,35 @@
 package fr.noahboos.essor.component.challenge;
 
+import fr.noahboos.essor.component.EquipmentLevelingData;
+import fr.noahboos.essor.component.ModDataComponentTypes;
+import net.minecraft.world.item.*;
+
 public class ChallengesFactory {
-    public static Challenges AddBossChallenges() {
+    public static void AssignChallenges(ItemStack item) {
+        EquipmentLevelingData data = item.getComponents().get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+
+        if (data == null) {
+            return;
+        }
+
+        Item itemType = item.getItem();
+
+        switch (itemType) {
+            case AxeItem axeItem -> data.SetChallenges(AddChallengeToAxe());
+            case BowItem bowItem -> data.SetChallenges(AddChallengeToRangedWeapon());
+            case CrossbowItem crossbowItem -> data.SetChallenges(AddChallengeToRangedWeapon());
+            case HoeItem hoeItem -> data.SetChallenges(AddChallengeToHoe());
+            case MaceItem maceItem -> data.SetChallenges(AddChallengeToWeapon());
+            case PickaxeItem pickaxeItem -> data.SetChallenges(AddChallengeToPickaxe());
+            case ShovelItem shovelItem -> data.SetChallenges(AddChallengeToShovel());
+            case ShieldItem shieldItem -> data.SetChallenges(AddChallengeToWeapon());
+            case SwordItem swordItem -> data.SetChallenges(AddChallengeToWeapon());
+            case TridentItem tridentItem -> data.SetChallenges(AddChallengeToTrident());
+            default -> {}
+        }
+    }
+
+    private static Challenges AddBossChallenges() {
         Challenges challenges = new Challenges();
         challenges.AddChallenge(new Challenge("kill-ender-dragon"));
         challenges.AddChallenge(new Challenge("kill-elder-guardian"));
@@ -10,7 +38,7 @@ public class ChallengesFactory {
         return challenges;
     }
 
-    public static Challenges AddChallengeToWeapon() {
+    private static Challenges AddChallengeToWeapon() {
         Challenges challenges = AddBossChallenges();
         challenges.AddChallenge(new Challenge("kill-humans"));;
         challenges.AddChallenge(new Challenge("kill-zombies"));
@@ -20,25 +48,25 @@ public class ChallengesFactory {
         return challenges;
     }
 
-    public static Challenges AddChallengeToRangedWeapon() {
+    private static Challenges AddChallengeToRangedWeapon() {
         Challenges challenges = AddChallengeToWeapon();
         challenges.AddChallenge(new Challenge("kill-flyers"));
         return challenges;
     }
 
-    public static Challenges AddChallengeToTrident() {
+    private static Challenges AddChallengeToTrident() {
         Challenges challenges = AddChallengeToWeapon();
         challenges.AddChallenge(new Challenge("kill-guardians"));
         return challenges;
     }
 
-    public static Challenges AddChallengeToTool() {
+    private static Challenges AddChallengeToTool() {
         Challenges challenges = new Challenges();
-        challenges.AddChallenge(new Challenge("break-blocks.json"));
+        challenges.AddChallenge(new Challenge("break-blocks"));
         return challenges;
     }
 
-    public static Challenges AddChallengeToPickaxe() {
+    private static Challenges AddChallengeToPickaxe() {
         Challenges challenges = AddChallengeToTool();
         challenges.AddChallenge(new Challenge("break-coal-ore"));
         challenges.AddChallenge(new Challenge("break-copper-ore"));
@@ -52,7 +80,7 @@ public class ChallengesFactory {
         return challenges;
     }
 
-    public static Challenges AddChallengeToAxe() {
+    private static Challenges AddChallengeToAxe() {
         Challenges challenges = AddChallengeToTool();
         challenges.AddChallenge(new Challenge("break-oak"));
         challenges.AddChallenge(new Challenge("break-birch"));
@@ -68,7 +96,7 @@ public class ChallengesFactory {
         return challenges;
     }
 
-    public static Challenges AddChallengeToShovel() {
+    private static Challenges AddChallengeToShovel() {
         Challenges challenges = AddChallengeToTool();
         challenges.AddChallenge(new Challenge("break-dirt"));
         challenges.AddChallenge(new Challenge("break-podzol"));
@@ -81,7 +109,7 @@ public class ChallengesFactory {
         return challenges;
     }
 
-    public static Challenges AddChallengeToHoe() {
+    private static Challenges AddChallengeToHoe() {
         Challenges challenges = AddChallengeToTool();
         challenges.AddChallenge(new Challenge("till-dirt"));
         challenges.AddChallenge(new Challenge("break-warped-wart"));
