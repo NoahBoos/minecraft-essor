@@ -10,6 +10,8 @@ public class ChallengesFactory {
 
         if (data == null) {
             return;
+        } else if (data.GetChallenges() != null) {
+            return;
         }
 
         Item itemType = item.getItem();
