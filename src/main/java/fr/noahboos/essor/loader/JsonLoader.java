@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JsonLoader {
@@ -51,7 +52,13 @@ public class JsonLoader {
             Reader reader = new InputStreamReader(stream);
             Gson gson = new Gson();
             Type type = new TypeToken<Challenge>(){}.getType();
-            return gson.fromJson(reader, type);
+            Challenge challengeBuffer = gson.fromJson(reader, type);
+            Map<Integer, Integer> tiersAsInteger = new HashMap<>();
+            for (Map.Entry<Integer, Integer> entry : challengeBuffer.tiers.entrySet()) {
+                tiersAsInteger.put(Integer.valueOf(entry.getKey()), Integer.valueOf(entry.getValue()));
+            }
+            challengeBuffer.tiers = tiersAsInteger;
+            return challengeBuffer;
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
