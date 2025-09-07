@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class Challenge {
     public String id;
-    public String name;
     public Map<Integer, Integer> tiers;
     public Integer maximumTier;
     public Integer currentTier;
@@ -32,7 +31,6 @@ public class Challenge {
         }
 
         this.id = challengeBuffer.id;
-        this.name = challengeBuffer.name;
         this.tiers = challengeBuffer.tiers;
         this.maximumTier = challengeBuffer.maximumTier;
         this.currentTier = challengeBuffer.currentTier;
@@ -63,10 +61,6 @@ public class Challenge {
         return this.id;
     }
 
-    public String GetName() {
-        return this.name;
-    }
-
     public Map<Integer, Integer> GetTiers() {
         return this.tiers;
     }
@@ -93,7 +87,6 @@ public class Challenge {
 
     public static final Codec<Challenge> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(challenge -> challenge.id),
-            Codec.STRING.fieldOf("name").forGetter(challenge -> challenge.name),
             Codec.unboundedMap(Codec.INT, Codec.INT).fieldOf("tiers").forGetter(challenge -> challenge.tiers),
             Codec.INT.fieldOf("maximumTier").forGetter(c -> c.maximumTier),
             Codec.INT.fieldOf("currentTier").forGetter(c -> c.currentTier),
@@ -101,10 +94,9 @@ public class Challenge {
             Codec.STRING.listOf().fieldOf("targets")
                     .forGetter(c -> c.targets != null ? new ArrayList<>(c.targets) : new ArrayList<>()),
             Codec.BOOL.fieldOf("isCompleted").forGetter(c -> c.isCompleted)
-    ).apply(instance, (id, name, tiers, maxTier, curTier, prog, targets, completed) -> {
+    ).apply(instance, (id, tiers, maxTier, curTier, prog, targets, completed) -> {
         Challenge challenge = new Challenge();
         challenge.id = id;
-        challenge.name = name;
         challenge.tiers = tiers;
         challenge.maximumTier = maxTier;
         challenge.currentTier = curTier;
