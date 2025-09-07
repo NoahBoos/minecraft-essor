@@ -1,5 +1,7 @@
 package fr.noahboos.essor.component;
 
+import fr.noahboos.essor.component.challenge.Challenges;
+
 public class EquipmentLevelingData {
     private int prestige;
     private int requiredLevelToPrestige;
@@ -7,6 +9,7 @@ public class EquipmentLevelingData {
     private float experienceMultiplier;
     private int requiredExperienceToLevelUp;
     private float currentExperience;
+    private Challenges challenges;
 
     // Constructeur de la classe
     public EquipmentLevelingData() {
@@ -16,15 +19,17 @@ public class EquipmentLevelingData {
         this.experienceMultiplier = 1f;
         this.requiredExperienceToLevelUp = 100;
         this.currentExperience = 0f;
+        this.challenges = new Challenges();
     }
 
-    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, float experienceMultiplier, int requiredExperienceToLevelUp, float currentExperience) {
+    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, float experienceMultiplier, int requiredExperienceToLevelUp, float currentExperience, Challenges challenges) {
         this.prestige = prestige;
         this.requiredLevelToPrestige = requiredLevelToPrestige;
         this.level = level;
         this.experienceMultiplier = experienceMultiplier;
         this.requiredExperienceToLevelUp = requiredExperienceToLevelUp;
         this.currentExperience = currentExperience;
+        this.challenges = challenges;
     }
 
     // Getter et setter de prestige.
@@ -75,5 +80,13 @@ public class EquipmentLevelingData {
 
     public void SetCurrentExperience(float currentExperience) {
         this.currentExperience = currentExperience;
+    }
+
+    // Getter et setter de challenges.
+    public Challenges GetChallenges() {
+        return this.challenges;
+    }
+    public void SetChallenges(Challenges challenges) {
+        this.challenges = challenges;
     }
 }

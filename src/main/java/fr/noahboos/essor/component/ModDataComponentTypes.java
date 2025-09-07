@@ -3,6 +3,7 @@ package fr.noahboos.essor.component;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.noahboos.essor.Essor;
+import fr.noahboos.essor.component.challenge.Challenges;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraftforge.registries.DeferredRegister;
@@ -32,11 +33,13 @@ public class ModDataComponentTypes {
                             .forGetter(d -> Optional.empty()),
                     // -------------------------------------
 
-                    Codec.FLOAT.optionalFieldOf("currentExperience", 0f).forGetter(EquipmentLevelingData::GetCurrentExperience)
-            ).apply(instance, (prestige, reqLvlToPrestige, level, expMultiplier, reqExpNewOpt, reqExpOldOpt, currentExp) -> {
+                    Codec.FLOAT.optionalFieldOf("currentExperience", 0f).forGetter(EquipmentLevelingData::GetCurrentExperience),
+                    Challenges.CODEC.optionalFieldOf("challenges", new Challenges(null))
+                            .forGetter(EquipmentLevelingData::GetChallenges)
+            ).apply(instance, (prestige, reqLvlToPrestige, level, expMultiplier, reqExpNewOpt, reqExpOldOpt, currentExp, challenges) -> {
                 // Java 17+: Optional#or
                 int reqExp = reqExpNewOpt.or(() -> reqExpOldOpt).orElse(100);
-                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, expMultiplier, reqExp, currentExp);
+                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, expMultiplier, reqExp, currentExp, challenges);
             }));
 
     // Déclaration du composant de données entreposant les données relatives au leveling d'une pièce d'équipement.
