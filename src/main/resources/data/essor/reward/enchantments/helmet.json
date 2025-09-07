@@ -1,80 +1,80 @@
 {
-  "1": {
+  "11": {
     "unbreaking": 1
   },
-  "2": {
+  "12": {
     "aqua_affinity": 1
   },
-  "3": {
+  "13": {
     "protection": 1,
     "projectile_protection": 1,
     "blast_protection": 1,
     "fire_protection": 1
   },
-  "4": {
+  "15": {
     "respiration": 1
   },
-  "5": {
+  "17": {
     "thorns": 1
   },
-  "6": {
+  "21": {
     "unbreaking": 2
   },
-  "8": {
+  "23": {
     "protection": 2,
     "projectile_protection": 2,
     "blast_protection": 2,
     "fire_protection": 2
   },
-  "9": {
+  "25": {
     "respiration": 2
   },
-  "10": {
+  "27": {
     "thorns": 2
   },
-  "11": {
+  "31": {
     "unbreaking": 3
   },
-  "13": {
+  "33": {
     "protection": 3,
     "projectile_protection": 3,
     "blast_protection": 3,
     "fire_protection": 3
   },
-  "14": {
+  "35": {
     "respiration": 3
   },
-  "15": {
+  "37": {
     "thorns": 3
   },
-  "16": {
+  "41": {
     "unbreaking": 4
   },
-  "18": {
+  "43": {
     "protection": 4,
     "projectile_protection": 4,
     "blast_protection": 4,
     "fire_protection": 4
   },
-  "19": {
+  "45": {
     "respiration": 4
   },
-  "20": {
+  "47": {
     "thorns": 4
   },
-  "21": {
+  "51": {
     "unbreaking": 5
   },
-  "23": {
+  "53": {
     "protection": 5,
     "projectile_protection": 5,
     "blast_protection": 5,
     "fire_protection": 5
   },
-  "24": {
+  "55": {
     "respiration": 5
   },
-  "25": {
+  "57": {
     "thorns": 5
   }
 }

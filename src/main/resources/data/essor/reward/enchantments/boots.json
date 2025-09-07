@@ -1,95 +1,101 @@
 {
-  "1": {
+  "11": {
     "unbreaking": 1
   },
-  "2": {
+  "12": {
     "depth_strider": 1
   },
-  "3": {
+  "13": {
     "protection": 1,
     "projectile_protection": 1,
     "blast_protection": 1,
     "fire_protection": 1
   },
-  "4": {
+  "15": {
     "feather_falling": 1
   },
-  "5": {
+  "17": {
     "thorns": 1
   },
-  "6": {
-    "unbreaking": 2
-  },
-  "7": {
+  "19": {
     "soul_speed": 1
   },
-  "8": {
+  "21": {
+    "unbreaking": 2
+  },
+  "22": {
+    "depth_strider": 2
+  },
+  "23": {
     "protection": 2,
     "projectile_protection": 2,
     "blast_protection": 2,
     "fire_protection": 2
   },
-  "9": {
+  "25": {
     "feather_falling": 2
   },
-  "10": {
+  "27": {
     "thorns": 2
   },
-  "11": {
+  "29": {
+    "soul_speed": 2
+  },
+  "31": {
     "unbreaking": 3
   },
-  "12": {
-    "depth_strider": 2
+  "32": {
+    "depth_strider": 3
   },
-  "13": {
+  "33": {
     "protection": 3,
     "projectile_protection": 3,
     "blast_protection": 3,
     "fire_protection": 3
   },
-  "14": {
+  "35": {
     "feather_falling": 3
   },
-  "15": {
+  "37": {
     "thorns": 3
   },
-  "16": {
+  "39": {
+    "soul_speed": 3
+  },
+  "41": {
     "unbreaking": 4
   },
-  "17": {
-    "soul_speed": 2
-  },
-  "18": {
+  "43": {
     "protection": 4,
     "projectile_protection": 4,
     "blast_protection": 4,
     "fire_protection": 4
   },
-  "19": {
+  "45": {
     "feather_falling": 4
   },
-  "20": {
+  "47": {
     "thorns": 4
   },
-  "21": {
+  "49": {
+    "soul_speed": 4
+  },
+  "51": {
     "unbreaking": 5
   },
-  "22": {
-    "depth_strider": 3
-  },
-  "23": {
+  "53": {
     "protection": 5,
     "projectile_protection": 5,
     "blast_protection": 5,
     "fire_protection": 5
   },
-  "24": {
+  "55": {
     "feather_falling": 5
   },
-  "25": {
+  "57": {
     "thorns": 5
   },
-  "26": {
-    "soul_speed": 3
+  "59": {
+    "soul_speed": 5
   }
 }

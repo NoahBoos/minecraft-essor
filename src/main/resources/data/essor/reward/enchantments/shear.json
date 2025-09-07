@@ -1,17 +1,17 @@
 {
-  "1": {
+  "11": {
     "unbreaking": 1
   },
-  "7": {
+  "21": {
     "unbreaking": 2
   },
-  "13": {
+  "31": {
     "unbreaking": 3
   },
-  "19": {
+  "41": {
     "unbreaking": 4
   },
-  "25": {
+  "51": {
     "unbreaking": 5
   }
 }
