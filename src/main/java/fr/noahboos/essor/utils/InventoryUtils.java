@@ -45,9 +45,7 @@ public class InventoryUtils {
         for (ItemStack itemStack : inventory.items) {
             if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass()) && !itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
                 itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
-                if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(itemStack.getItem().getClass())) {
-                    ChallengesFactory.AssignChallenges(itemStack);
-                }
+                ChallengesFactory.AssignChallenges(itemStack);
             }
         }
 
@@ -60,9 +58,7 @@ public class InventoryUtils {
         for (ItemStack itemStack : inventory.offhand) {
             if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass()) && !itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
                 itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
-                if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(itemStack.getItem().getClass())) {
-                    ChallengesFactory.AssignChallenges(itemStack);
-                }
+                ChallengesFactory.AssignChallenges(itemStack);
             }
         }
     }

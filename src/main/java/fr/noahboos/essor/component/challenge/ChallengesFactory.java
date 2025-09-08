@@ -2,10 +2,14 @@ package fr.noahboos.essor.component.challenge;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import fr.noahboos.essor.utils.Constants;
 import net.minecraft.world.item.*;
 
 public class ChallengesFactory {
     public static void AssignChallenges(ItemStack item) {
+        if (!Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(item.getItem().getClass())) {
+            return;
+        }
         EquipmentLevelingData data = item.getComponents().get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
 
         if (data == null) {
