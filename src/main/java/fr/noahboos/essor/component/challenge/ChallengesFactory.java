@@ -10,7 +10,9 @@ public class ChallengesFactory {
 
         if (data == null) {
             return;
-        } else if (data.GetChallenges() != null) {
+        }
+
+        if (data.GetChallenges() != null && !data.GetChallenges().challenges.isEmpty()) {
             return;
         }
 
