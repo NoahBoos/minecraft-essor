@@ -31,9 +31,6 @@ public class ItemEvents {
             craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
             ChallengesFactory.AssignChallenges(craftedItem);
         }
-
-        // Parcourt l'inventaire du joueur et assigne à chaque pièce d'équipement améliorable ne le possédant pas le conteneur de données "DC_EQUIPMENT_LEVELING_DATA".
-        InventoryUtils.ApplyEquipmentLevelingDataToInventoryItems(event.getEntity().getInventory());
     }
 
     @SubscribeEvent
