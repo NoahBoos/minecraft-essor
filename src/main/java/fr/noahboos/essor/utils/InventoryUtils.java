@@ -43,21 +43,25 @@ public class InventoryUtils {
 
     public static void ApplyEquipmentLevelingDataToInventoryItems(Inventory inventory) {
         for (ItemStack itemStack : inventory.items) {
-            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass()) && !itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
-                itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass())) {
+                if (!itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+                    itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+                }
                 ChallengesFactory.AssignChallenges(itemStack);
             }
         }
 
         for (ItemStack itemStack : inventory.armor) {
-            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass()) && !itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass())) {
                 itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
             }
         }
 
         for (ItemStack itemStack : inventory.offhand) {
-            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass()) && !itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
-                itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+            if (UPGRADABLE_ITEM_CLASSES.contains(itemStack.getItem().getClass())) {
+                if (!itemStack.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
+                    itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
+                }
                 ChallengesFactory.AssignChallenges(itemStack);
             }
         }
