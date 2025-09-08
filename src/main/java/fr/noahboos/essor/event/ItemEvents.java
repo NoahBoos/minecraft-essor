@@ -17,6 +17,7 @@ import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOU
 public class ItemEvents {
     @SubscribeEvent
     public static void OnItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+        if (event.getEntity().level().isClientSide()) return;
         // Récupération de l'item fabriqué.
         ItemStack craftedItem = event.getCrafting();
 
@@ -37,6 +38,7 @@ public class ItemEvents {
 
     @SubscribeEvent
     public static void OnItemPickedUp(EntityItemPickupEvent event) {
+        if (event.getEntity().level().isClientSide()) return;
         // Récupération de l'item ramassé.
         ItemStack pickedUpItem = event.getItem().getItem();
 
