@@ -3,6 +3,7 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.component.challenge.ChallengesFactory;
+import fr.noahboos.essor.utils.InventoryUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -31,14 +32,7 @@ public class ItemEvents {
         }
 
         // Parcourt l'inventaire du joueur et assigne à chaque pièce d'équipement améliorable ne le possédant pas le conteneur de données "DC_EQUIPMENT_LEVELING_DATA".
-        for (ItemStack itemInInventory : event.getEntity().getInventory().items) {
-            if (UPGRADABLE_ITEM_CLASSES.contains(itemInInventory.getItem().getClass()) && !itemInInventory.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
-                itemInInventory.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
-                if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(itemInInventory.getItem().getClass())) {
-                    ChallengesFactory.AssignChallenges(itemInInventory);
-                }
-            }
-        }
+        InventoryUtils.ApplyEquipmentLevelingDataToInventoryItems(event.getEntity().getInventory());
     }
 
     @SubscribeEvent
@@ -54,5 +48,4 @@ public class ItemEvents {
             }
         }
     }
-
 }
