@@ -10,6 +10,7 @@ public class ChallengesFactory {
         if (!Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(item.getItem().getClass())) {
             return;
         }
+
         EquipmentLevelingData data = item.getComponents().get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
 
         if (data == null) {
