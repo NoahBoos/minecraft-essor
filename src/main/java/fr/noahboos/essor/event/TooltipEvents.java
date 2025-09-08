@@ -3,6 +3,7 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.Essor;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -45,18 +46,16 @@ public class TooltipEvents {
             levelProgressBar.append("§7□".repeat(Math.max(0, levelSegments - levelFilledSegments)));
             tooltip.add(Component.literal(levelProgressBar.toString()));
             if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(hoveredItem.getItem().getClass())) {
-                System.out.println(hoveredItemData.GetChallenges().challenges);
                 if (Screen.hasShiftDown()) {
                     hoveredItemData.GetChallenges().challenges.forEach(challenge -> {
                         tooltip.add(Component.empty());
                         StringBuilder challengeProgressBar = new StringBuilder();
                         challengeProgressBar.append("§a■".repeat(Math.max(0, challenge.currentTier)));
                         challengeProgressBar.append("§7□".repeat(Math.max(0, challenge.maximumTier - challenge.currentTier)));
-                        tooltip.add(Component.literal(challenge.id + " - " + challengeProgressBar.toString()));
-                        tooltip.add(Component.literal(challenge.progression + " / " + challenge.tiers.get(challenge.currentTier + 1).toString()));
+                        tooltip.add(Component.translatable(challenge.id.replace(":", "."), challenge.progression, challenge.tiers.get(challenge.currentTier + 1)).append(Component.literal(" - ")).append(Component.literal(challengeProgressBar.toString())));
                     });
                 } else {
-                    tooltip.add(Component.literal("Hold shift to see challenges."));
+                    tooltip.add(Component.translatable("translation.holdToSeeChallenges"));
                 }
             }
         }
