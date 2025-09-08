@@ -46,15 +46,18 @@ public class TooltipEvents {
             tooltip.add(Component.literal(levelProgressBar.toString()));
             if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(hoveredItem.getItem().getClass())) {
                 System.out.println(hoveredItemData.GetChallenges().challenges);
-                hoveredItemData.GetChallenges().challenges.forEach(challenge -> {
-//                    System.out.println(challenge);
-                    tooltip.add(Component.empty());
-                    StringBuilder challengeProgressBar = new StringBuilder();
-                    challengeProgressBar.append("§a■".repeat(Math.max(0, challenge.currentTier)));
-                    challengeProgressBar.append("§7□".repeat(Math.max(0, challenge.maximumTier - challenge.currentTier)));
-                    tooltip.add(Component.literal(challenge.id + " - " + challengeProgressBar.toString()));
-                    tooltip.add(Component.literal(challenge.progression + " / " + challenge.tiers.get(challenge.currentTier + 1).toString()));
-                });
+                if (Screen.hasShiftDown()) {
+                    hoveredItemData.GetChallenges().challenges.forEach(challenge -> {
+                        tooltip.add(Component.empty());
+                        StringBuilder challengeProgressBar = new StringBuilder();
+                        challengeProgressBar.append("§a■".repeat(Math.max(0, challenge.currentTier)));
+                        challengeProgressBar.append("§7□".repeat(Math.max(0, challenge.maximumTier - challenge.currentTier)));
+                        tooltip.add(Component.literal(challenge.id + " - " + challengeProgressBar.toString()));
+                        tooltip.add(Component.literal(challenge.progression + " / " + challenge.tiers.get(challenge.currentTier + 1).toString()));
+                    });
+                } else {
+                    tooltip.add(Component.literal("Hold shift to see challenges."));
+                }
             }
         }
     }
