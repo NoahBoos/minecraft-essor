@@ -14,10 +14,9 @@ public class Constants {
             FishingRodItem.class, FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
     );
 
-    public static final Set<Class<?>> UPGRADABLE_ITEM_CLASSES_NO_ARMOUR = Set.of(
+    public static final Set<Class<?>> CAN_GAIN_CHALLENGE_ITEM_CLASSES = Set.of(
             SwordItem.class, PickaxeItem.class, AxeItem.class, ShovelItem.class, HoeItem.class,
-            BowItem.class, CrossbowItem.class, TridentItem.class, ShieldItem.class, FishingRodItem.class,
-            FlintAndSteelItem.class, MaceItem.class, ShearsItem.class
+            BowItem.class, CrossbowItem.class, TridentItem.class, ShieldItem.class, MaceItem.class
     );
 
     // Map contenant des pairs <Class<?>, XP_Registry>. Les registres sont définis dans ExperienceDataRegistry.

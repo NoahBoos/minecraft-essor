@@ -3,7 +3,6 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.component.challenge.ChallengesFactory;
-import fr.noahboos.essor.utils.InventoryUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -11,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES;
-import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR;
+import static fr.noahboos.essor.utils.Constants.CAN_GAIN_CHALLENGE_ITEM_CLASSES;
 
 @Mod.EventBusSubscriber
 public class ItemEvents {
@@ -42,7 +41,7 @@ public class ItemEvents {
         // Si l'item est une pièce d'équipement améliorable et qu'il ne possède pas le composant de données "DC_EQUIPMENT_LEVELING_DATA", on le lui ajoute.
         if (UPGRADABLE_ITEM_CLASSES.contains(pickedUpItem.getItem().getClass()) && !pickedUpItem.getComponents().has(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA)) {
             pickedUpItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
-            if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(pickedUpItem.getItem().getClass())) {
+            if (CAN_GAIN_CHALLENGE_ITEM_CLASSES.contains(pickedUpItem.getItem().getClass())) {
                 ChallengesFactory.AssignChallenges(pickedUpItem);
             }
         }

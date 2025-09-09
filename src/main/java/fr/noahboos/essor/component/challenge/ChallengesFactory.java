@@ -7,7 +7,7 @@ import net.minecraft.world.item.*;
 
 public class ChallengesFactory {
     public static void AssignChallenges(ItemStack item) {
-        if (!Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(item.getItem().getClass())) {
+        if (!Constants.CAN_GAIN_CHALLENGE_ITEM_CLASSES.contains(item.getItem().getClass())) {
             return;
         }
 

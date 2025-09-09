@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR;
+import static fr.noahboos.essor.utils.Constants.CAN_GAIN_CHALLENGE_ITEM_CLASSES;
 
 @Mod.EventBusSubscriber(modid = Essor.MOD_ID, value = Dist.CLIENT)
 public class TooltipEvents {
@@ -45,7 +45,7 @@ public class TooltipEvents {
             levelProgressBar.append("§a■".repeat(Math.max(0, levelFilledSegments)));
             levelProgressBar.append("§7□".repeat(Math.max(0, levelSegments - levelFilledSegments)));
             tooltip.add(Component.literal(levelProgressBar.toString()));
-            if (UPGRADABLE_ITEM_CLASSES_NO_ARMOUR.contains(hoveredItem.getItem().getClass())) {
+            if (CAN_GAIN_CHALLENGE_ITEM_CLASSES.contains(hoveredItem.getItem().getClass())) {
                 if (Screen.hasShiftDown()) {
                     hoveredItemData.GetChallenges().challenges.forEach(challenge -> {
                         tooltip.add(Component.empty());

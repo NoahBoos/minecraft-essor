@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES;
-import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES_NO_ARMOUR;
 
 public class InventoryUtils {
     public static void InventorySync(ServerPlayer player) {
