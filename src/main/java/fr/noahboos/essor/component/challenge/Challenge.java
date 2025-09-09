@@ -2,6 +2,7 @@ package fr.noahboos.essor.component.challenge;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.loader.JsonLoader;
 
 import java.util.*;
@@ -36,11 +37,12 @@ public class Challenge {
         this.isCompleted = challengeBuffer.isCompleted;
     }
 
-    public void IncrementProgress(int amount) {
+    public void IncrementProgress(int amount, EquipmentLevelingData data) {
         if (!isCompleted) {
             this.progression += amount;
-            if (this.progression >= this.tiers.get(this.currentTier)) {
+            if (this.progression >= this.tiers.get(this.currentTier + 1)) {
                 this.currentTier += 1;
+                data.SetExperienceMultiplier((float) Math.round((data.GetExperienceMultiplier() + 0.25f) * 100f) / 100f);
                 if (this.currentTier.equals(this.maximumTier)) {
                     this.isCompleted = true;
                 } else {
