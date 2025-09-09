@@ -21,15 +21,6 @@ public class Challenges {
         this.challenges.add(challenge);
     }
 
-    public void UpdateChallenge(String id, int amount) {
-        for (Challenge challenge : this.challenges) {
-            if (challenge.id.equals(id)) {
-                challenge.IncrementProgress(amount);
-                break;
-            }
-        }
-    }
-
     public List<Challenge> GetChallenges() {
         return this.challenges;
     }
