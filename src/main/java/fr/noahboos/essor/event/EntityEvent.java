@@ -1,7 +1,7 @@
 package fr.noahboos.essor.event;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
-import fr.noahboos.essor.component.ExperienceHandler;
+import fr.noahboos.essor.component.EquipmentProgressionManager;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.utils.Constants;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,10 +22,8 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 
-import static fr.noahboos.essor.component.ExperienceHandler.AddExperience;
+import static fr.noahboos.essor.component.EquipmentProgressionManager.AddExperience;
 
 @Mod.EventBusSubscriber
 public class EntityEvent {
@@ -58,7 +56,7 @@ public class EntityEvent {
 
         if (canGainExperience) {
             // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-            ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
+            EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
             canGainExperience = false;
             System.out.println("You gained experience.");
         }
@@ -88,9 +86,11 @@ public class EntityEvent {
         // Identifiant complet de l'entité avec laquelle le joueur vient d'interagir.
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(deadEntity.getType()).toString();
         // Vérification et attribution à la pièce d'équipement en main principale de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, mainHandItem, entityId);
+        EquipmentProgressionManager.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, mainHandItem, entityId);
+        EquipmentProgressionManager.VerifyAndApplyChallengeProgress(mainHandItem, entityId);
         // Vérification et attribution à la pièce d'équipement en main secondaire de l'expérience à obtenir de l'élimination d'une entité.
-        ExperienceHandler.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, offHandItem, entityId);
+        EquipmentProgressionManager.VerifyAndApplyExperience((Player) killerEntity, event.getEntity().level(), Constants.WEAPON_PRIMARY_EXPERIENCE_REGISTRIES_MAP, offHandItem, entityId);
+        EquipmentProgressionManager.VerifyAndApplyChallengeProgress(offHandItem, entityId);
     }
 
     @SubscribeEvent

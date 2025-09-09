@@ -1,12 +1,13 @@
 package fr.noahboos.essor.event;
 
-import fr.noahboos.essor.component.ExperienceHandler;
+import fr.noahboos.essor.component.EquipmentProgressionManager;
 import fr.noahboos.essor.utils.Constants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -21,24 +22,30 @@ public class BlockEvents {
     public static void OnBlockBreak(BlockEvent.BreakEvent event) {
         if (event.getLevel().isClientSide()) return;
         Player player = event.getPlayer();
+        Level level = (Level) event.getLevel();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = player.getMainHandItem();
         // Récupération du bloc que le joueur vient de casser.
         Block block = event.getState().getBlock();
 
-        List<ItemStack> drops = Block.getDrops(event.getState(), ((ServerLevel) event.getLevel()), event.getPos(), event.getLevel().getBlockEntity(event.getPos()), event.getPlayer(), itemInHand);
+        List<ItemStack> drops = Block.getDrops(event.getState(), ((ServerLevel) level), event.getPos(), level.getBlockEntity(event.getPos()), event.getPlayer(), itemInHand);
         int totalDropCount = drops.stream().mapToInt(ItemStack::getCount).sum();
 
         // Identifiant complet du bloc que le joueur a cassé.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Vérification et attribution à l'outil de l'expérience à obtenir d'un bloc.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_PRIMARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId, totalDropCount);
+        level.scheduleTick(event.getPos(), block, 1);
+        level.getServer().execute(() -> {
+            EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_PRIMARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId, totalDropCount);
+            EquipmentProgressionManager.VerifyAndApplyChallengeProgress(itemInHand, blockId);
+        });
     }
 
     @SubscribeEvent
     public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getLevel().isClientSide()) return;
         Player player = event.getEntity();
+        Level level = (Level) event.getLevel();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
         ItemStack itemInHand = event.getItemStack();
         // Récupération de la position du bloc sur lequel le joueur vient de cliquer.
@@ -49,6 +56,7 @@ public class BlockEvents {
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        ExperienceHandler.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_SECONDARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId);
+        EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_SECONDARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId);
+        EquipmentProgressionManager.VerifyAndApplyChallengeProgressForSecondaryInteraction(itemInHand, blockId);
     }
 }
