@@ -56,7 +56,7 @@ public class BlockEvents {
         // Identifiant complet du bloc sur lequel le joueur vient de cliquer.
         String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
         // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur bloc.
-        EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_SECONDARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId);
+        EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_SECONDARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, blockId, 1);
         EquipmentProgressionManager.VerifyAndApplyChallengeProgressForSecondaryInteraction(itemInHand, blockId);
     }
 }

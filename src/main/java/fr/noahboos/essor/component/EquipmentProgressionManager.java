@@ -77,25 +77,12 @@ public class EquipmentProgressionManager {
         player.sendSystemMessage(Component.translatable("chat.essor.prestigeMessage", itemToPrestige.getDisplayName(), data.GetPrestige()));
     }
 
-    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey) {
+    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer preMultiplier) {
         for (Map.Entry<Class<?>, Map<String, Float>> entry : experienceRegistriesMap.entrySet()) {
             if (entry.getKey().isInstance(itemToExperience.getItem())) {
                 Map<String, Float> experienceRegistry = entry.getValue();
                 if (experienceRegistry.containsKey(registryKey)) {
-                    Float experienceToAdd =  experienceRegistry.get(registryKey);
-                    AddExperience(player, level, itemToExperience, experienceToAdd);
-                }
-                break;
-            }
-        }
-    }
-
-    public static void VerifyAndApplyExperience(Player player, Level level, Map<Class<?>, Map<String, Float>> experienceRegistriesMap, ItemStack itemToExperience, String registryKey, Integer totalDropCount) {
-        for (Map.Entry<Class<?>, Map<String, Float>> entry : experienceRegistriesMap.entrySet()) {
-            if (entry.getKey().isInstance(itemToExperience.getItem())) {
-                Map<String, Float> experienceRegistry = entry.getValue();
-                if (experienceRegistry.containsKey(registryKey)) {
-                    float experienceToAdd =  experienceRegistry.get(registryKey) * totalDropCount;
+                    float experienceToAdd =  experienceRegistry.get(registryKey) * preMultiplier;
                     AddExperience(player, level, itemToExperience, experienceToAdd);
                 }
                 break;
