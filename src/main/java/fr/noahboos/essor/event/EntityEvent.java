@@ -30,7 +30,6 @@ public class EntityEvent {
     @SubscribeEvent
     public static void OnRightClickEntity(PlayerInteractEvent.EntityInteract event) {
         if (event.getLevel().isClientSide()) return;
-        boolean canGainExperience = false;
         // Récupération du joueur
         Player player = event.getEntity();
         // Récupération de l'item que le joueur a en main au moment où il casse le bloc.
@@ -43,22 +42,15 @@ public class EntityEvent {
         if (entityId.equals("minecraft:sheep")) {
             if (entity instanceof Sheep sheep ) {
                 if (!sheep.isBaby() && sheep.readyForShearing()) {
-                    canGainExperience = true;
+                    EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
                 }
             }
         } else if (entityId.equals("minecraft:mooshroom")) {
             if (entity instanceof MushroomCow mushroomCow) {
                 if (!mushroomCow.isBaby() && mushroomCow.readyForShearing()) {
-                    canGainExperience = true;
+                    EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
                 }
             }
-        }
-
-        if (canGainExperience) {
-            // Vérification et attribution à l'outil de l'expérience à obtenir d'une action secondaire sur une entité.
-            EquipmentProgressionManager.VerifyAndApplyExperience(player, player.level(), Constants.TOOL_TERTIARY_EXPERIENCE_REGISTRIES_MAP, itemInHand, entityId);
-            canGainExperience = false;
-            System.out.println("You gained experience.");
         }
     }
 
