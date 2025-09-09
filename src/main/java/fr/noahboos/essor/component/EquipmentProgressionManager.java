@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static fr.noahboos.essor.utils.Constants.UPGRADABLE_ITEM_CLASSES;
 
-public class ExperienceHandler {
+public class EquipmentProgressionManager {
     public static void AddExperience(Player player, Level level, ItemStack itemToExperience,  float experienceToAdd) {
         // Récupération du conteneur de données attaché à l'item à améliorer.
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
@@ -103,6 +103,33 @@ public class ExperienceHandler {
         }
     }
 
+    public static void VerifyAndApplyChallengeProgress(ItemStack itemToProgress, String challengeTarget) {
+        EquipmentLevelingData data = itemToProgress.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
+
+        data.GetChallenges().challenges.forEach(challenge -> {
+            if (challenge.targets.isEmpty()) {
+                challenge.IncrementProgress(1, data);
+            }
+            if (challenge.targets.contains(challengeTarget)) {
+                challenge.IncrementProgress(1, data);
+            }
+        });
+    }
+
+    public static void VerifyAndApplyChallengeProgressForSecondaryInteraction(ItemStack itemToProgress, String challengeTarget) {
+        EquipmentLevelingData data =  itemToProgress.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+        if (data == null) return;
+
+        if (itemToProgress.getItem().getClass() == HoeItem.class) {
+            data.GetChallenges().challenges.forEach(challenge -> {
+                if (challenge.targets.contains(challengeTarget)) {
+                    challenge.IncrementProgress(1, data);
+                }
+            });
+        }
+    }
+
     public static void ApplyEnchantmentForLevelUp(Level level, Map<Integer, Map<String, Integer>> rewardsTable, ItemStack itemToEnchant) {
         // Récupération du conteneur de données attaché à l'item à enchanter.
         EquipmentLevelingData data = itemToEnchant.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
@@ -134,4 +161,5 @@ public class ExperienceHandler {
             itemToEnchant.enchant(randomEnchantment, enchantLevel);
         }
     }
+
 }
