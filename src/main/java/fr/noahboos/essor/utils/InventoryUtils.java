@@ -2,6 +2,7 @@ package fr.noahboos.essor.utils;
 
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
+import fr.noahboos.essor.component.challenge.Challenge;
 import fr.noahboos.essor.component.challenge.ChallengesFactory;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,6 +48,14 @@ public class InventoryUtils {
                     itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
                 }
                 ChallengesFactory.AssignChallenges(itemStack);
+
+                EquipmentLevelingData data = itemStack.getComponents().get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+                data.SetPrestigeExperienceMultiplier((float) Math.round((data.GetPrestige() * 0.25f) * 100f) / 100f);
+                for (Challenge challenge : data.GetChallenges().challenges) {
+                    float challengeExperienceMultiplier = (float) Math.round((challenge.currentTier * 0.25f) * 100f) / 100f;
+                    data.SetChallengeExperienceMultiplier(data.GetChallengeExperienceMultiplier() + challengeExperienceMultiplier);
+                }
+                data.SetTotalExperienceMultiplier();
             }
         }
 
@@ -62,6 +71,14 @@ public class InventoryUtils {
                     itemStack.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
                 }
                 ChallengesFactory.AssignChallenges(itemStack);
+
+                EquipmentLevelingData data = itemStack.getComponents().get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
+                data.SetPrestigeExperienceMultiplier((float) Math.round((data.GetPrestige() * 0.25f) * 100f) / 100f);
+                for (Challenge challenge : data.GetChallenges().challenges) {
+                    float challengeExperienceMultiplier = (float) Math.round((challenge.currentTier * 0.25f) * 100f) / 100f;
+                    data.SetChallengeExperienceMultiplier(data.GetChallengeExperienceMultiplier() + challengeExperienceMultiplier);
+                }
+                data.SetTotalExperienceMultiplier();
             }
         }
     }
