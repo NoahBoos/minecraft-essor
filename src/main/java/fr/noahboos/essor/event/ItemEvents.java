@@ -3,6 +3,7 @@ package fr.noahboos.essor.event;
 import fr.noahboos.essor.component.EquipmentLevelingData;
 import fr.noahboos.essor.component.ModDataComponentTypes;
 import fr.noahboos.essor.component.challenge.ChallengesFactory;
+import fr.noahboos.essor.utils.InventoryUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -30,6 +31,8 @@ public class ItemEvents {
             craftedItem.set(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA, new EquipmentLevelingData());
             ChallengesFactory.AssignChallenges(craftedItem);
         }
+
+        InventoryUtils.ApplyEquipmentLevelingDataToInventoryItems(event.getEntity().getInventory());
     }
 
     @SubscribeEvent
