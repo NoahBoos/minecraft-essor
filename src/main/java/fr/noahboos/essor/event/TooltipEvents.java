@@ -52,7 +52,7 @@ public class TooltipEvents {
                         StringBuilder challengeProgressBar = new StringBuilder();
                         challengeProgressBar.append("§a■".repeat(Math.max(0, challenge.currentTier)));
                         challengeProgressBar.append("§7□".repeat(Math.max(0, challenge.maximumTier - challenge.currentTier)));
-                        tooltip.add(Component.translatable(challenge.id.replace(":", "."), challenge.progression, challenge.tiers.get(challenge.currentTier + 1)).append(Component.literal(" - ")).append(Component.literal(challengeProgressBar.toString())));
+                        tooltip.add(Component.translatable(challenge.id.replace(":", "."), challenge.progression, (challenge.isCompleted) ? challenge.tiers.get(challenge.currentTier) : challenge.tiers.get(challenge.currentTier + 1)).append(Component.literal(" - ")).append(Component.literal(challengeProgressBar.toString())));
                     });
                 } else {
                     tooltip.add(Component.translatable("translation.holdToSeeChallenges"));
