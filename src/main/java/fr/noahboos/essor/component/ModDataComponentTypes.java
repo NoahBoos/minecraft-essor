@@ -22,7 +22,9 @@ public class ModDataComponentTypes {
                     Codec.INT.optionalFieldOf("prestige", 0).forGetter(EquipmentLevelingData::GetPrestige),
                     Codec.INT.optionalFieldOf("requiredLevelToPrestige", 10).forGetter(EquipmentLevelingData::GetRequiredLevelToPrestige),
                     Codec.INT.optionalFieldOf("level", 0).forGetter(EquipmentLevelingData::GetLevel),
-                    Codec.FLOAT.optionalFieldOf("experienceMultiplier", 1f).forGetter(EquipmentLevelingData::GetExperienceMultiplier),
+                    Codec.FLOAT.optionalFieldOf("totalExperienceMultiplier", 1f).forGetter(EquipmentLevelingData::GetTotalExperienceMultiplier),
+                    Codec.FLOAT.optionalFieldOf("prestigeExperienceMultiplier", 0f).forGetter(EquipmentLevelingData::GetPrestigeExperienceMultiplier),
+                    Codec.FLOAT.optionalFieldOf("challengeExperienceMultiplier", 0f).forGetter(EquipmentLevelingData::GetChallengeExperienceMultiplier),
 
                     // ---- Migration ancien -> nouveau ----
                     // On LIT le nouveau champ s'il existe…
@@ -36,10 +38,10 @@ public class ModDataComponentTypes {
                     Codec.FLOAT.optionalFieldOf("currentExperience", 0f).forGetter(EquipmentLevelingData::GetCurrentExperience),
                     Challenges.CODEC.optionalFieldOf("challenges", new Challenges(null))
                             .forGetter(EquipmentLevelingData::GetChallenges)
-            ).apply(instance, (prestige, reqLvlToPrestige, level, expMultiplier, reqExpNewOpt, reqExpOldOpt, currentExp, challenges) -> {
+            ).apply(instance, (prestige, reqLvlToPrestige, level, totExpMultiplier, presExpMultiplier, chalExpMultiplier, reqExpNewOpt, reqExpOldOpt, currentExp, challenges) -> {
                 // Java 17+: Optional#or
                 int reqExp = reqExpNewOpt.or(() -> reqExpOldOpt).orElse(100);
-                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, expMultiplier, reqExp, currentExp, challenges);
+                return new EquipmentLevelingData(prestige, reqLvlToPrestige, level, totExpMultiplier, presExpMultiplier, chalExpMultiplier, reqExp, currentExp, challenges);
             }));
 
     // Déclaration du composant de données entreposant les données relatives au leveling d'une pièce d'équipement.

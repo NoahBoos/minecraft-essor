@@ -6,7 +6,9 @@ public class EquipmentLevelingData {
     private int prestige;
     private int requiredLevelToPrestige;
     private int level;
-    private float experienceMultiplier;
+    private float totalExperienceMultiplier;
+    private float prestigeExperienceMultiplier;
+    private float challengeExperienceMultiplier;
     private int requiredExperienceToLevelUp;
     private float currentExperience;
     private Challenges challenges;
@@ -16,17 +18,21 @@ public class EquipmentLevelingData {
         this.prestige = 0;
         this.requiredLevelToPrestige = 10;
         this.level = 0;
-        this.experienceMultiplier = 1f;
+        this.totalExperienceMultiplier = 1f;
+        this.prestigeExperienceMultiplier = 0f;
+        this.challengeExperienceMultiplier = 0f;
         this.requiredExperienceToLevelUp = 100;
         this.currentExperience = 0f;
         this.challenges = new Challenges();
     }
 
-    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, float experienceMultiplier, int requiredExperienceToLevelUp, float currentExperience, Challenges challenges) {
+    public EquipmentLevelingData(int prestige, int requiredLevelToPrestige, int level, float totalExperienceMultiplier, float prestigeExperienceMultiplier, float challengeExperienceMultiplier, int requiredExperienceToLevelUp, float currentExperience, Challenges challenges) {
         this.prestige = prestige;
         this.requiredLevelToPrestige = requiredLevelToPrestige;
         this.level = level;
-        this.experienceMultiplier = experienceMultiplier;
+        this.totalExperienceMultiplier = totalExperienceMultiplier;
+        this.prestigeExperienceMultiplier = prestigeExperienceMultiplier;
+        this.challengeExperienceMultiplier = challengeExperienceMultiplier;
         this.requiredExperienceToLevelUp = requiredExperienceToLevelUp;
         this.currentExperience = currentExperience;
         this.challenges = challenges;
@@ -57,11 +63,27 @@ public class EquipmentLevelingData {
     }
 
     // Getter et setter d'experienceMultiplier.
-    public float GetExperienceMultiplier() {
-        return this.experienceMultiplier;
+    public float GetTotalExperienceMultiplier() {
+        return this.totalExperienceMultiplier;
     }
-    public void SetExperienceMultiplier(float experienceMultiplier) {
-        this.experienceMultiplier = experienceMultiplier;
+    public void SetTotalExperienceMultiplier() {
+        this.totalExperienceMultiplier = 1.0f + this.prestigeExperienceMultiplier + this.challengeExperienceMultiplier;
+    }
+
+    public float GetPrestigeExperienceMultiplier() {
+        return this.prestigeExperienceMultiplier;
+    }
+
+    public void SetPrestigeExperienceMultiplier(float prestigeExperienceMultiplier) {
+        this.prestigeExperienceMultiplier = prestigeExperienceMultiplier;
+    }
+
+    public float GetChallengeExperienceMultiplier() {
+        return this.challengeExperienceMultiplier;
+    }
+
+    public void SetChallengeExperienceMultiplier(float challengeExperienceMultiplier) {
+        this.challengeExperienceMultiplier = challengeExperienceMultiplier;
     }
 
     // Getter et setter de levelExperienceThreshold.

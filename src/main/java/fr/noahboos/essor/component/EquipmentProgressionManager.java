@@ -22,7 +22,7 @@ public class EquipmentProgressionManager {
         EquipmentLevelingData data = itemToExperience.get(ModDataComponentTypes.DC_EQUIPMENT_LEVELING_DATA);
         if (data == null) return;
         // Code relatif au gain d'expérience.
-        data.SetCurrentExperience((float) Math.round((data.GetCurrentExperience() + (experienceToAdd * data.GetExperienceMultiplier())) * 1000f) / 1000f);
+        data.SetCurrentExperience((float) Math.round((data.GetCurrentExperience() + (experienceToAdd * data.GetTotalExperienceMultiplier())) * 1000f) / 1000f);
         while (data.GetCurrentExperience() >= data.GetRequiredExperienceToLevelUp()) {
             LevelUp(player, level, itemToExperience);
         }
@@ -70,7 +70,8 @@ public class EquipmentProgressionManager {
 
         data.SetPrestige(data.GetPrestige() + 1);
         data.SetLevel(data.GetLevel() - data.GetRequiredLevelToPrestige());
-        data.SetExperienceMultiplier((float) Math.round((data.GetExperienceMultiplier() + 0.25f) * 100f) / 100f);
+        data.SetPrestigeExperienceMultiplier((float) Math.round((data.GetPrestigeExperienceMultiplier() + 0.25f) * 100f) / 100f);
+        data.SetTotalExperienceMultiplier();
         data.SetRequiredExperienceToLevelUp(100 + (100 * data.GetLevel()));
         data.SetRequiredLevelToPrestige(10 + (10 * data.GetPrestige()));
 

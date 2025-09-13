@@ -36,7 +36,9 @@ public class TooltipEvents {
             prestigeProgressBar.append("§7☆".repeat(Math.max(0, prestigeSegments - prestigeFilledSegments)));
             tooltip.add(Component.empty());
             tooltip.add(Component.literal(Component.translatable("tooltip.essor.prestige", hoveredItemData.GetPrestige()).getString() + prestigeProgressBar.toString()));
-            tooltip.add(Component.translatable("tooltip.essor.experienceMultiplier", hoveredItemData.GetExperienceMultiplier()));
+            tooltip.add(Component.translatable("tooltip.essor.totalExperienceMultiplier", hoveredItemData.GetTotalExperienceMultiplier()));
+            tooltip.add(Component.translatable("tooltip.essor.prestigeExperienceMultiplier", hoveredItemData.GetPrestigeExperienceMultiplier()));
+            tooltip.add(Component.translatable("tooltip.essor.challengeExperienceMultiplier", hoveredItemData.GetChallengeExperienceMultiplier()));
             tooltip.add(Component.empty());
             tooltip.add(Component.translatable("tooltip.essor.level", hoveredItemData.GetLevel(), hoveredItemData.GetCurrentExperience(), hoveredItemData.GetRequiredExperienceToLevelUp()));
             StringBuilder levelProgressBar = new StringBuilder();

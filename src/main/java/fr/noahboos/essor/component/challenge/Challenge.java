@@ -42,7 +42,8 @@ public class Challenge {
             this.progression += amount;
             if (this.progression >= this.tiers.get(this.currentTier + 1)) {
                 this.currentTier += 1;
-                data.SetExperienceMultiplier((float) Math.round((data.GetExperienceMultiplier() + 0.25f) * 100f) / 100f);
+                data.SetChallengeExperienceMultiplier((float) Math.round((data.GetChallengeExperienceMultiplier() + 0.25f) * 100f) / 100f);
+                data.SetTotalExperienceMultiplier();
                 if (this.currentTier.equals(this.maximumTier)) {
                     this.isCompleted = true;
                 } else {
